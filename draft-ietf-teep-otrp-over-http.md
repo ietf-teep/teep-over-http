@@ -24,7 +24,7 @@ pi:
 author:
  -
        ins: D. Thaler
-       name: David Thaler
+       name: Dave Thaler
        organization: Microsoft
        email: dthaler@microsoft.com
 
