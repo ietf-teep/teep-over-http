@@ -107,12 +107,12 @@ beyond those specified by HTTP need be modified or
 removed upon a following such a redirect.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
-with content SHOULD have the following headers (replacing the content type with
-application/otrpv2+cbor if CBOR is used) as explained in Section 4.12 of
-{{I-D.ietf-httpbis-bcp56bis}}:
+with content SHOULD have the following headers as explained in Section 4.12 of
+{{I-D.ietf-httpbis-bcp56bis}} (replacing the content type with
+the relevant OTrP content type per the OTrP specification):
 
 ~~~~
-    Content-Type: application/otrpv2+json
+    Content-Type: <content type>
     Cache-Control: no-store
     X-Content-Type-Options: nosniff
     Content-Security-Policy: default-src 'none'
@@ -274,6 +274,9 @@ TAM Broker generates an appropriate HTTP error response.
 
 # Sample message flow
 
+The following shows a sample OTrP message flow that uses application/otrp+json
+as the Content-Type.
+
 1. An application installer determines (e.g., from an app manifest)
    that the application has a dependency on TA "X", and passes
    this notification to the TEEP Broker.  The TEEP Broker
@@ -308,7 +311,7 @@ TAM Broker generates an appropriate HTTP error response.
    the OTrP message in the body:
 
                HTTP/1.1 200 OK
-               Content-Type: application/otrpv2+json
+               Content-Type: application/otrp+json
                Content-Length: [length of OTrP message here]
                Server: Bar/2.2
                Cache-Control: no-store
@@ -331,7 +334,7 @@ TAM Broker generates an appropriate HTTP error response.
                POST /tam HTTP/1.1
                Host: example.com
                Accept: application/otrp+json
-               Content-Type: application/otrpv2+json
+               Content-Type: application/otrp+json
                Content-Length: [length of OTrP message here]
                User-Agent: Foo/1.0
 
