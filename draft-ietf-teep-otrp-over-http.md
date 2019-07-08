@@ -1,7 +1,7 @@
 ---
 title: HTTP Transport for the Open Trust Protocol (OTrP)
 abbrev: OTrP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-00
+docname: draft-ietf-teep-otrp-over-http-01
 category: info
 
 ipr: trust200902
@@ -107,11 +107,12 @@ beyond those specified by HTTP need be modified or
 removed upon a following such a redirect.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
-with content SHOULD have the following headers as explained in Section 4.12 of
+with content SHOULD have the following headers (replacing the content type with
+application/otrpv2+cbor if CBOR is used) as explained in Section 4.12 of
 {{I-D.ietf-httpbis-bcp56bis}}:
 
 ~~~~
-    Content-Type: application/otrp+json
+    Content-Type: application/otrpv2+json
     Cache-Control: no-store
     X-Content-Type-Options: nosniff
     Content-Security-Policy: default-src 'none'
@@ -165,7 +166,7 @@ application installer) of success.
 
 If the OTrP Agent passes back a TAM URI with no message buffer, the TEEP Broker
 attempts to create session state,
-then sends an HTTP(S) POST to the TAM URI with an "Accept: application/otrp+json" header
+then sends an HTTP(S) POST to the TAM URI with an Accept header
 and an empty body. The HTTP request is then associated with the Broker's session state.
 
 If the OTrP Agent instead passes back a TAM URI with a message buffer, the TEEP Broker
@@ -184,8 +185,8 @@ When a message buffer (and TAM URI) is passed to a Broker from an OTrP Agent, th
 Broker MUST do the following, using the Broker's session state associated
 with its API call to the OTrP Agent.
 
-The Broker sends an HTTP POST request to the TAM URI with "Accept: application/otrp+json"
-and "Content-Type: application/otrp+json" headers, and a body
+The Broker sends an HTTP POST request to the TAM URI with Accept
+and Content-Type headers with the OTrP media type in use, and a body
 containing the OTrP message buffer provided by the OTrP Agent.
 The HTTP request is then associated with the Broker's session state.
 
@@ -262,8 +263,8 @@ If the TAM passes back an empty buffer, the Broker sends a successful
 ## Getting a message buffer from the TAM
 
 If the TAM passes back a non-empty buffer, the Broker
-generates a successful (2xx) response with a "Content-Type: application/otrp+json"
-header, and with the message buffer as the body.
+generates a successful (2xx) response with a Content-Type
+header with the OTrP media type in use, and with the message buffer as the body.
 
 ## Error handling
 
@@ -307,7 +308,7 @@ Broker generates an appropriate HTTP error response.
    the OTrP message in the body:
 
                HTTP/1.1 200 OK
-               Content-Type: application/otrp+json
+               Content-Type: application/otrpv2+json
                Content-Length: [length of OTrP message here]
                Server: Bar/2.2
                Cache-Control: no-store
@@ -330,7 +331,7 @@ Broker generates an appropriate HTTP error response.
                POST /tam HTTP/1.1
                Host: example.com
                Accept: application/otrp+json
-               Content-Type: application/otrp+json
+               Content-Type: application/otrpv2+json
                Content-Length: [length of OTrP message here]
                User-Agent: Foo/1.0
 
@@ -361,50 +362,6 @@ but it is expected that real deployments will always use HTTPS TAM URIs.
 
 # IANA Considerations
 
-[^NOTE]
-
-[^NOTE]: This section should probably be moved to the OTrP spec.
-
-This section requests that IANA assign the "application/otrp+json" media type.
-
-Type name: application
-
-Subtype name: otrp+json
-
-Required parameters: none
-
-Optional parameters: none
-
-Encoding considerations: Same as encoding considerations of
-application/json as specified in Section 11 of {{?RFC7159}}.
-
-Security considerations: See Section 12 of {{?RFC7159}} and {{security}} of this document.
-
-Interoperability considerations: Same as interoperability
-considerations of application/json as specified in {{?RFC7159}}.
-
-Published specification: {{!I-D.ietf-teep-opentrustprotocol}}
-
-Applications that use this media type: OTrP implementations.
-
-Fragment identifier considerations: N/A
-
-~~~~
-Additional information:
-    Deprecated alias names for this type: N/A
-    Magic number(s): N/A
-    File extension(s): N/A
-    Macintosh file type code(s): N/A
-~~~~
-
-Person & email address to contact for further information: teep@ietf.org
-
-Intended usage: COMMON
-
-Restrictions on usage: none
-
-Author: See the "Authors' Addresses" section of this document.
-
-Change controller: IETF
+This document has no actions for IANA.
 
 --- back
