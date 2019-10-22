@@ -30,9 +30,10 @@ author:
 
 --- abstract
 
-This document specifies the HTTP transport for the Open Trust Protocol (OTrP),
-which is used to manage code and configuration data in a Trusted Execution
-Environment (TEE).  An implementation of this document can (if desired) run outside of any TEE,
+The Open Trust Protocol (OTrP) is used to manage code and configuration data in a Trusted Execution
+Environment (TEE).  This document specifies the HTTP transport for OTrP communication where
+a Trusted Application Manager (TAM) service is used to manage TEEs in devices that can initiate
+communication to the TAM.  An implementation of this document can (if desired) run outside of any TEE,
 but interacts with an OTrP implementation that runs inside a TEE.
 
 --- middle
@@ -53,25 +54,43 @@ along with typical networking stacks, does not necessarily run inside a TEE.  Th
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP) that only sees encrypted messages to be kept out of the TEE.
 
-The OTrP specification {{!I-D.ietf-teep-opentrustprotocol}} describes the
+The OTrP specification ({{!I-D.ietf-teep-opentrustprotocol}} or {{!I-D.tschofenig-teep-otrp-v2}}) describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport,
 The purpose of this document is to provide such details.  That is,
 an OTrP/HTTP ("OTrP over HTTP") implementation delivers messages up to an OTrP
 implementation, and accepts messages from the OTrP implementation to be sent over a network.
-The OTrP over HTTP implementation can be implemented outside a TEE (i.e., as part
-of a TEEP "Broker") or inside a TEE.
+The OTrP over HTTP implementation can be implemented outside a TEE (i.e., in
+a TEEP "Broker") or inside a TEE.
 
 There are two categories of scenarios in which OTrP could be deployed:
 
 1. TAMs are reachable on the Internet, and Agents are on networks that might be
    behind a firewall, so that communication must be initiated by an Agent.
+   Thus, the Agent has an HTTP Client and the TAM has an HTTP Server.
 
 2. Agents are reachable on the Internet, and TAMs are on networks that might be
    behind a firewall, so that communication must be initiated by a TAM.
+   Thus, the Agent has an HTTP Server and the TAM has an HTTP Client.
 
-This document focuses primarily on the first category, but some sections ({{use-of-http}}
+The remainder of this document focuses primarily on the first category as depicted
+in {{communication-model}}, but some sections ({{use-of-http}}
 and {{security}}) may apply to the second category as well.  A fuller
 discussion of the second category may be handled by a separate document.
+
+~~~~
+    +------------------+           OTrP           +------------------+
+    |    TEEP Agent    | <----------------------> |        TAM       |
+    +------------------+                          +------------------+
+             |                                              |
+    +------------------+      OTrP over HTTP      +------------------+
+    | OTrP/HTTP Client | <----------------------> | OTrP/HTTP Server |
+    +------------------+                          +------------------+
+             |                                              |
+    +------------------+           HTTP           +------------------+
+    |    HTTP Client   | <----------------------> |    HTTP Server   |
+    +------------------+                          +------------------+
+~~~~
+{: #communication-model title="Agent-to-TAM Communication"}
 
 # Terminology
 
@@ -85,36 +104,83 @@ This document also uses various terms defined in
 {{?I-D.ietf-teep-architecture}}, including Trusted Execution Environment (TEE),
 Trusted Application (TA), Trusted Application Manager (TAM), TEEP Agent, and TEEP Broker.
 
-# Use of Abstract APIs
+# TEEP Broker Models
+
+Section 6 of the TEEP architecture {{?I-D.ietf-teep-architecture}} defines a TEEP "Broker"
+as being a component on the device, but outside the TEE, that facilitates communication
+with a TAM.  As depicted in {{broker-models}}, there are multiple ways in which this
+can be implemented, with more or fewer layers being inside the TEE.  For example, in
+model A, the model with the smallest TEE footprint, only the OTrP implementation is in
+the TEE, whereas the OTrP/HTTP implementation is in the TEEP Broker outside the TEE.
+
+~~~~
+                        Model:    A      B      C     ...
+
+                                 TEE    TEE    TEE
+     +----------------+           |      |      |
+     |      OTrP      |     Agent |      |      | Agent
+     | implementation |           |      |      |
+     +----------------+           v      |      |
+              |                          |      |
+     +----------------+           ^      |      |
+     |    OTrP/HTTP   |    Broker |      |      |
+     | implementation |           |      |      |
+     +----------------+           |      v      |
+              |                   |             |
+     +----------------+           |      ^      |
+     |      HTTP      |           |      |      |
+     | implementation |           |      |      |
+     +----------------+           |      |      v
+              |                   |      |
+     +----------------+           |      |      ^
+     |   TCP or QUIC  |           |      |      | Broker
+     | implementation |           |      |      |
+     +----------------+           |      |      |
+                                 REE    REE    REE
+~~~~
+{: #broker-models title="TEEP Broker Models"}
+
+In other models, additional layers are moved into the TEE, increasing the TEE footprint,
+with the Broker either containing or calling the topmost protocol layer outside of the TEE.
+An implementation is free to choose any of these models, although Model A is the one we
+will use in our examples.
+
+Passing information from a REE component to a TEE component is typically spoken of as
+being passed "in" to the TEE, and informaton passed in the opposite direction is spoken of
+as being passed "out".  In the protocol layering sense, information is typically spoken
+of as being passed "up" or "down" the stack.  Since the layer at which information is
+passed in/out may vary by implementation, we will generally use "up" and "down" in this
+document.
+
+## Use of Abstract APIs
 
 This document refers to various APIs between an OTrP implementation and an OTrP/HTTP implementation
 in the abstract, meaning the literal syntax and programming language
 are not specified, so that various concrete APIs can be designed
 (outside of the IETF) that are compliant.
 
-It is common in some TEE architectures (e.g., SGX) to refer to calls
-into a Trusted Application (TA) as "ECALLs" (or enclave-calls), and calls
-out from a Trusted Application (TA) as "OCALLs" (or out-calls).
+Some TEE architectures (e.g., SGX) may support API calls both into and out of a TEE.
+In other TEE architectures, there may be no calls out from a TEE, but merely data returned
+from calls into a TEE.  This document attempts to be agnostic as to the
+concrete API architecture for Broker/Agent communication.  Since in model A,
+the Broker/Agent communication is done at the layer between the OTrP and OTrP/HTTP
+implementations, and there may be some architectures that do not support calls out
+of the TEE, which would be downcalls from OTrP in model A, we will
+will refer to passing information up to the OTrP implementation as API calls, but will simply refer to
+"passing data" back down from an OTrP implementation.  A concrete API might pass data
+back via an API downcall or via data returned from an API upcall.
 
-In other TEE architectures, there may be no calls out from a TA, but merely data returned
-from calls into a TA.  This document attempts to be agnostic as to the
-concrete API architecture.  As such, abstract APIs used in this document
-will refer to calls into a TA as API calls, and will simply refer to
-"passing data" back out of the TA.  A concrete API might pass data
-back via an OCALL or via data returned from an API call.
-
-This document will also refer to passing "no" data back out of a TA.
-In an OCALL-based architecture, this might be implemented by not making
-any such call.  In a return-based architecture, this might be implemented
-by returning 0 bytes.
+This document will also refer to passing "no" data back out of an OTrP implementation.
+In a concrete API, this might be implemented by not making any downcall, or by
+returning 0 bytes from an upcall, for example.
 
 # Use of HTTP as a Transport {#use-of-http}
 
 This document uses HTTP {{!I-D.ietf-httpbis-semantics}} as a transport.
 When not called out explicitly in this document, all implementation recommendations
-in {{?I-D.ietf-httpbis-bcp56bis}} apply to use of HTTP by OTrP.  
+in {{?I-D.ietf-httpbis-bcp56bis}} apply to use of HTTP by OTrP.
 
-Redirects MAY be automatically followed, and no additional request headers 
+Redirects MAY be automatically followed, and no additional request headers
 beyond those specified by HTTP need be modified or
 removed upon a following such a redirect.
 
@@ -148,7 +214,7 @@ being available in a given type of TEE, the notification will contain the follow
 
  - A unique identifier of the TA
 
- - Optionally, any metadata to pass to the TEEP Agent.  This might
+ - Optionally, any metadata to pass to the OTrP implementation.  This might
    include a TAM URI provided in the application manifest, for example.
 
  - Optionally, any requirements that may affect the choice of TEE,
@@ -160,15 +226,15 @@ based on the constraints expressed.  If there is only one TEE, the choice
 is obvious.  Otherwise, the choice might be based on factors such as
 capabilities of available TEE(s) compared with TEE requirements in the notification.
 
-The OTrP/HTTP Client then informs the TEEP Agent in that TEE by invoking
+The OTrP/HTTP Client then informs the OTrP implementation in that TEE by invoking
 an appropriate "RequestTA" API that identifies the TA needed and any other
 associated metadata.  The OTrP/HTTP Client need not know whether the TEE already has
 such a TA installed or whether it is up to date.
 
-The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
+The OTrP implementation will either (a) pass no data back, (b) pass back a TAM URI to connect to,
 or (c) pass back a message buffer and TAM URI to send it to.  The TAM URI
 passed back may or may not be the same as the TAM URI, if any, provided by
-the OTrP/HTTP Client, depending on the TEEP Agent's configuration.  If they differ,
+the OTrP/HTTP Client, depending on the OTrP implementation's configuration.  If they differ,
 the OTrP/HTTP Client MUST use the TAM URI passed back.
 
 ### Session Creation {#client-start}
@@ -176,30 +242,30 @@ the OTrP/HTTP Client MUST use the TAM URI passed back.
 If no data is passed back, the OTrP/HTTP Client simply informs its client (e.g., the
 application installer) of success.
 
-If the TEEP Agent passes back a TAM URI with no message buffer, the OTrP/HTTP Client
+If the OTrP implementation passes back a TAM URI with no message buffer, the OTrP/HTTP Client
 attempts to create session state,
 then sends an HTTP(S) POST to the TAM URI with an Accept header
 and an empty body. The HTTP request is then associated with the OTrP/HTTP Client's session state.
 
-If the TEEP Agent instead passes back a TAM URI with a message buffer, the OTrP/HTTP Client
+If the OTrP implementation instead passes back a TAM URI with a message buffer, the OTrP/HTTP Client
 attempts to create session state and handles the message buffer as
 specified in {{send-msg}}.
 
 Session state consists of:
 
- - Any context (e.g., a handle) that identifies the API session with the TEEP Agent.
+ - Any context (e.g., a handle) that identifies the API session with the OTrP implementation.
 
  - Any context that identifies an HTTP request, if one is outstanding.  Initially, none exists.
 
-## Getting a message buffer back from a TEEP Agent {#send-msg}
+## Getting a message buffer back from a OTrP implementation {#send-msg}
 
-When a message buffer (and TAM URI) is passed to a OTrP/HTTP Client from a TEEP Agent, the
+When a OTrP implementation passes a message buffer (and TAM URI) to an OTrP/HTTP Client, the
 OTrP/HTTP Client MUST do the following, using the OTrP/HTTP Client's session state associated
-with its API call to the TEEP Agent.
+with its API call to the OTrP implementation.
 
 The OTrP/HTTP Client sends an HTTP POST request to the TAM URI with Accept
 and Content-Type headers with the OTrP media type in use, and a body
-containing the OTrP message buffer provided by the TEEP Agent.
+containing the OTrP message buffer provided by the OTrP implementation.
 The HTTP request is then associated with the OTrP/HTTP Client's session state.
 
 ## Receiving an HTTP response {#http-response}
@@ -212,15 +278,15 @@ it can delete its session state, and its task is done.
 
 If instead the HTTP response body is not empty,
 the OTrP/HTTP Client calls a "ProcessOTrPMessage" API (Section 6.2 of {{I-D.ietf-teep-opentrustprotocol}})
-to pass the response body to the TEEP Agent
-associated with the session.  The TEEP Agent will then pass no data back,
+to pass the response body to the OTrP implementation
+associated with the session.  The OTrP implementation will then pass no data back,
 or pass back a message buffer.
 
 If no data is passed back, the OTrP/HTTP Client's task is complete, and it
 can delete its session state, and inform its client (e.g., the application
 installer) of success.
 
-If instead the TEEP Agent passes back a message buffer, the OTrP/HTTP Client
+If instead the OTrP implementation passes back a message buffer, the OTrP/HTTP Client
 handles the message buffer as specified in {{send-msg}}.
 
 ## Handling checks for policy changes
@@ -228,31 +294,31 @@ handles the message buffer as specified in {{send-msg}}.
 An implementation MUST provide a way to periodically check for OTrP policy changes.
 This can be done in any implementation-specific manner, such as:
 
-A) The OTrP/HTTP Client might call into the TEEP Agent at an interval previously specified by the TEEP Agent.
+A) The OTrP/HTTP Client might call into the OTrP implementation at an interval previously specified by the OTrP implementation.
    This approach requires that the OTrP/HTTP Client be capable of running a periodic timer.
 
-B) The OTrP/HTTP Client might be informed when an existing TA is invoked, and call into the TEEP Agent if
-   more time has passed than was previously specified by the TEEP Agent.  This approach allows
+B) The OTrP/HTTP Client might be informed when an existing TA is invoked, and call into the OTrP implementation if
+   more time has passed than was previously specified by the OTrP implementation.  This approach allows
    the device to go to sleep for a potentially long period of time.
 
 C) The OTrP/HTTP Client might be informed when any attestation attempt determines that the device
-   is out of compliance, and call into the TEEP Agent to remediate.
+   is out of compliance, and call into the OTrP implementation to remediate.
 
-The OTrP/HTTP Client informs the TEEP Agent by invoking an appropriate "RequestPolicyCheck" API.
-The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
+The OTrP/HTTP Client informs the OTrP implementation by invoking an appropriate "RequestPolicyCheck" API.
+The OTrP implementation will either (a) pass no data back, (b) pass back a TAM URI to connect to,
 or (c) pass back a message buffer and TAM URI to send it to.  Processing then continues
 as specified in {{client-start}}.
 
 ## Error handling
 
 If any local error occurs where the OTrP/HTTP Client cannot get
-a message buffer (empty or not) back from the TEEP Agent, the
+a message buffer (empty or not) back from the OTrP implementation, the
 OTrP/HTTP Client deletes its session state, and informs its client (e.g.,
 the application installer) of a failure.
 
 If any HTTP request results in an HTTP error response or
 a lower layer error (e.g., network unreachable), the
-OTrP/HTTP Client calls the TEEP Agent's "ProcessError" API, and then
+OTrP/HTTP Client calls the OTrP implementation's "ProcessError" API, and then
 deletes its session state and informs its client of a failure.
 
 # OTrP/HTTP Server Behavior
@@ -264,7 +330,7 @@ the OTrP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
 pass back a (possibly empty) message buffer.
 
 When an HTTP POST request is received with a non-empty body, the OTrP/HTTP Server calls the TAM's
-"ProcessOTrPMessage" API to pass it the request body. The TAM will 
+"ProcessOTrPMessage" API to pass it the request body. The TAM will
 then pass back a (possibly empty) message buffer.
 
 ## Getting an empty buffer back from the TAM
@@ -292,17 +358,17 @@ as the Content-Type.
 1. An application installer determines (e.g., from an app manifest)
    that the application has a dependency on TA "X", and passes
    this notification to the OTrP/HTTP Client.  The OTrP/HTTP Client
-   picks a TEEP Agent (e.g., the only one available) based on
+   picks a OTrP implementation (e.g., the only one available) based on
    this notification.
 
-2. The OTrP/HTTP Client calls the TEEP Agent's "RequestTA" API, passing
+2. The OTrP/HTTP Client calls the OTrP implementation's "RequestTA" API, passing
    TA Needed = X.
 
-3. The TEEP Agent finds that no such TA is already installed,
+3. The OTrP implementation finds that no such TA is already installed,
    but that it can be obtained from a given TAM.  The TEEP
    Agent passes the TAM URI (e.g., "https://example.com/tam")
-   to the OTrP/HTTP Client.  (If the TEEP Agent already had a cached TAM 
-   certificate that it trusts, it could skip to step 9 instead and 
+   to the OTrP/HTTP Client.  (If the OTrP implementation already had a cached TAM
+   certificate that it trusts, it could skip to step 9 instead and
    generate a GetDeviceStateResponse.)
 
 4. The OTrP/HTTP Client sends an HTTP POST request to the TAM URI:
@@ -319,7 +385,7 @@ as the Content-Type.
 6. The TAM generates an OTrP message (where typically GetDeviceStateRequest
    is the first message) and passes it to the OTrP/HTTP Server.
 
-7. The OTrP/HTTP Server sends an HTTP successful response with 
+7. The OTrP/HTTP Server sends an HTTP successful response with
    the OTrP message in the body:
 
                HTTP/1.1 200 OK
@@ -334,9 +400,9 @@ as the Content-Type.
                [OTrP message here]
 
 8. The OTrP/HTTP Client gets the HTTP response, extracts the OTrP
-   message and calls the TEEP Agent's "ProcessOTrPMessage" API to pass it the message.
+   message and calls the OTrP implementation's "ProcessOTrPMessage" API to pass it the message.
 
-9. The TEEP Agent processes the OTrP message, and generates an OTrP
+9. The OTrP implementation processes the OTrP message, and generates an OTrP
    response (e.g., GetDeviceStateResponse) which it passes back
    to the OTrP/HTTP Client.
 
