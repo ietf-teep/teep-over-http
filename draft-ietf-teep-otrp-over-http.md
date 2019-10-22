@@ -1,7 +1,7 @@
 ---
-title: HTTP Transport for the Open Trust Protocol (OTrP)
+title: HTTP Transport for Open Trust Protocol (OTrP) Agent-to-TAM Communication
 abbrev: OTrP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-01
+docname: draft-ietf-teep-otrp-over-http-02
 category: info
 
 ipr: trust200902
@@ -32,7 +32,7 @@ author:
 
 This document specifies the HTTP transport for the Open Trust Protocol (OTrP),
 which is used to manage code and configuration data in a Trusted Execution
-Environment (TEE).  An implementation of this document can run outside of any TEE,
+Environment (TEE).  An implementation of this document can (if desired) run outside of any TEE,
 but interacts with an OTrP implementation that runs inside a TEE.
 
 --- middle
@@ -40,14 +40,14 @@ but interacts with an OTrP implementation that runs inside a TEE.
 
 #  Introduction
 
-Trusted Execution Environments (TEEs), including Intel SGX, ARM TrustZone,
+Trusted Execution Environments (TEEs), including environments based on Intel SGX, ARM TrustZone,
 Secure Elements, and others, enforce that only authorized code can execute within the TEE,
 and any memory used by such code is protected against tampering or
 disclosure outside the TEE.  The Open Trust Protocol (OTrP) is designed to
 provision authorized code and configuration into TEEs.
 
-To be secure against malware, an OTrP implementation (referred to as an 
-OTrP "Agent" on the client side, and a "Trusted Application Manager (TAM)" on
+To be secure against malware, an OTrP implementation (referred to as a
+TEEP "Agent" on the client side, and a "Trusted Application Manager (TAM)" on
 the server side) must themselves run inside a TEE. However, the transport for OTrP,
 along with typical networking stacks, need not run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
@@ -57,9 +57,21 @@ The OTrP specification {{!I-D.ietf-teep-opentrustprotocol}} describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport,
 an implementation of which is referred to as a
 "Broker".  The purpose of this document is to provide such details.  That is,
-the HTTP transport for OTrP is implemented in a Broker (typically outside
+the HTTP transport for OTrP is implemented in a Broker (whether inside or outside
 a TEE) that delivers messages up to an OTrP implementation, and accepts
 messages from the OTrP implementation to be sent over a network.
+
+There are two categories of scenarios in which OTrP could be deployed:
+
+1. TAMs are reachable on the Internet, and Agents are on networks that might be
+   behind a firewall, so that communication must be initiated by an Agent.
+
+2. Agents are reachable on the Internet, and TAMs are on networks that might be
+   behind a firewall, so that communication must be initiated by a TAM.
+
+This document focuses primarily on the first category, but some sections ({{use-of-http}}
+and {{security}}) may apply to the second category as well.  A fuller
+discussion of the second category may be handled by a separate document.
 
 # Terminology
 
@@ -84,7 +96,7 @@ It is common in some TEE architectures (e.g., SGX) to refer to calls
 into a Trusted Application (TA) as "ECALLs" (or enclave-calls), and calls
 out from a Trusted Application (TA) as "OCALLs" (or out-calls).
 
-In other TEE architectures, there may be no OCALLs, but merely data returned
+In other TEE architectures, there may be no calls out from a TA, but merely data returned
 from calls into a TA.  This document attempts to be agnostic as to the
 concrete API architecture.  As such, abstract APIs used in this document
 will refer to calls into a TA as API calls, and will simply refer to
@@ -96,7 +108,7 @@ In an OCALL-based architecture, this might be implemented by not making
 any such call.  In a return-based architecture, this might be implemented
 by returning 0 bytes.
 
-# Use of HTTP as a Transport
+# Use of HTTP as a Transport {#use-of-http}
 
 This document uses HTTP {{!I-D.ietf-httpbis-semantics}} as a transport.
 When not called out explicitly in this document, all implementation recommendations
@@ -121,7 +133,7 @@ the relevant OTrP content type per the OTrP specification):
 
 Only the POST method is specified for TAM resources exposed over HTTP.
 A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
-be any HTTP(S) URI.  The URI to use is configured in an TEEP Agent
+be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
 When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}.
@@ -130,7 +142,7 @@ When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}.
 
 ## Receiving a request to install a new Trusted Application
 
-When the TEEP Broker receives a notification (e.g., from an application installer)
+When the TEEP Broker receives a local notification (e.g., from an application installer)
 that an application has a dependency on a given Trusted Application (TA)
 being available in a given type of TEE, the notification will contain the following:
 
@@ -179,9 +191,9 @@ Session state consists of:
 
  - Any context that identifies an HTTP request, if one is outstanding.  Initially, none exists.
 
-## Getting a message buffer back from an TEEP Agent {#send-msg}
+## Getting a message buffer back from a TEEP Agent {#send-msg}
 
-When a message buffer (and TAM URI) is passed to a TEEP Broker from an TEEP Agent, the
+When a message buffer (and TAM URI) is passed to a TEEP Broker from a TEEP Agent, the
 TEEP Broker MUST do the following, using the TEEP Broker's session state associated
 with its API call to the TEEP Agent.
 
@@ -202,7 +214,7 @@ If instead the HTTP response body is not empty,
 the TEEP Broker calls a "ProcessOTrPMessage" API (Section 6.2 of {{I-D.ietf-teep-opentrustprotocol}})
 to pass the response body to the TEEP Agent
 associated with the session.  The TEEP Agent will then pass no data back,
-or pass pack a message buffer.
+or pass back a message buffer.
 
 If no data is passed back, the TEEP Broker's task is complete, and it
 can delete its session state, and inform its client (e.g., the application
@@ -280,7 +292,7 @@ as the Content-Type.
 1. An application installer determines (e.g., from an app manifest)
    that the application has a dependency on TA "X", and passes
    this notification to the TEEP Broker.  The TEEP Broker
-   picks an TEEP Agent (e.g., the only one available) based on
+   picks a TEEP Agent (e.g., the only one available) based on
    this notification.
 
 2. The TEEP Broker calls the TEEP Agent's "RequestTA" API, passing
@@ -304,7 +316,7 @@ as the Content-Type.
 5. The TAM Broker receives the HTTP POST request, and calls
    the TAM's "ProcessConnect" API.
 
-6. The TAM generates an OTrP message (typically GetDeviceStateRequest
+6. The TAM generates an OTrP message (where typically GetDeviceStateRequest
    is the first message) and passes it to the TAM Broker.
 
 7. The TAM Broker sends an HTTP successful response with 
