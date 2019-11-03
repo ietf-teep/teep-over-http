@@ -378,7 +378,7 @@ as the Content-Type.
    Agent passes the TAM URI (e.g., "https://example.com/tam")
    to the TEEP/HTTP Client.  (If the TEEP implementation already had a cached TAM
    certificate that it trusts, it could skip to step 9 instead and
-   generate a GetDeviceStateResponse.)
+   generate a QueryResponse.)
 
 4. The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
 
@@ -391,7 +391,7 @@ as the Content-Type.
 5. On the TAM side, the TEEP/HTTP Server receives the HTTP POST request, and calls
    the TEEP implementation's "ProcessConnect" API.
 
-6. The TEEP implementation generates a TEEP message (where typically GetDeviceStateRequest
+6. The TEEP implementation generates a TEEP message (where typically QueryRequest
    is the first message) and passes it to the TEEP/HTTP Server.
 
 7. The TEEP/HTTP Server sends an HTTP successful response with
