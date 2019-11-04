@@ -28,6 +28,29 @@ author:
        organization: Microsoft
        email: dthaler@microsoft.com
 
+normative:
+  I-D.tschofenig-teep-protocol:
+    author:
+      -
+       ins: M. Pei
+      -
+       ins: H. Tschofenig
+      -
+       ins: D. Wheeler
+    title: "Trusted Execution Environment Provisioning (TEEP) Protocol"
+    date: 2019-11
+    seriesinfo:
+        Internet-Draft: draft-tschofenig-teep-protocol-00
+informative:
+  GP-OTrP:
+    author:
+      org: Global Platform
+    title: "TEE Management Framework: Open Trust Protocol (OTrP) Profile Version 1.0"
+    date: 2019-05
+    target: https://globalplatform.org/specs-library/tee-management-framework-open-trust-protocol/
+    seriesinfo:
+        Global Platform: GPD_SPE_123
+
 --- abstract
 
 The Trusted Execution Environment Provisioning (TEEP) Protocol is used to manage code and
@@ -55,8 +78,8 @@ along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP) that only sees encrypted messages, to be kept out of the TEE.
 
-The TEEP specification {{!I-D.tschofenig-teep-otrp-v2}} (and its predecessor
-{{!I-D.ietf-teep-opentrustprotocol}}) describes the
+The TEEP specification {{I-D.tschofenig-teep-protocol}} (and its predecessors
+{{!I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport.
 The purpose of this document is to provide such details.  That is,
 a TEEP-over-HTTP (TEEP/HTTP) implementation delivers messages up to a TEEP
