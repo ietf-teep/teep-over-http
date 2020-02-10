@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-03
+docname: draft-ietf-teep-otrp-over-http-04
 category: info
 
 ipr: trust200902
@@ -28,19 +28,6 @@ author:
        organization: Microsoft
        email: dthaler@microsoft.com
 
-normative:
-  I-D.tschofenig-teep-protocol:
-    author:
-      -
-       ins: M. Pei
-      -
-       ins: H. Tschofenig
-      -
-       ins: D. Wheeler
-    title: "Trusted Execution Environment Provisioning (TEEP) Protocol"
-    date: 2019-11
-    seriesinfo:
-        Internet-Draft: draft-tschofenig-teep-protocol-00
 informative:
   GP-OTrP:
     author:
@@ -78,7 +65,7 @@ along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP) that only sees encrypted messages, to be kept out of the TEE.
 
-The TEEP specification {{I-D.tschofenig-teep-protocol}} (and its predecessors
+The TEEP specification {{!I-D.ietf-teep-protocol}} (and its predecessors
 {{!I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport.
 The purpose of this document is to provide such details.  That is,
@@ -305,7 +292,7 @@ If the HTTP response body is empty, the TEEP/HTTP Client's task is complete, and
 it can delete its session state, and its task is done.
 
 If instead the HTTP response body is not empty, the TEEP/HTTP Client passes
-(e.g., using "ProcessOTrPMessage" API as mentioned in Section 6.2 of {{I-D.ietf-teep-opentrustprotocol}}
+(e.g., using "ProcessTeepMessage" API as mentioned in Section 6.2 of {{I-D.ietf-teep-opentrustprotocol}}
 if OTrP rather than TEEP is used for provisioning)
 the response body up to the TEEP implementation
 associated with the session.  The TEEP implementation will then either pass no data back,
@@ -360,8 +347,8 @@ the TEEP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
 pass back a (possibly empty) message buffer.
 
 When an HTTP POST request is received with a non-empty body, the TEEP/HTTP Server passes the
-request body to the TAM (e.g., using the "ProcessOTrPMessage" API mentioned in
-{{I-D.ietf-teep-opentrustprotocol}} if OTrP rather than TEEP is used for provisioning). The TAM will
+request body to the TAM (e.g., using the "ProcessTeepMessage" API mentioned in
+{{I-D.ietf-teep-architecture}} if OTrP rather than TEEP is used for provisioning). The TAM will
 then pass back a (possibly empty) message buffer.
 
 ## Getting an empty buffer back from the TEEP implementation
