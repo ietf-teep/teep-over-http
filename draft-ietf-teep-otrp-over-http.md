@@ -65,8 +65,8 @@ along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP) that only sees encrypted messages, to be kept out of the TEE.
 
-The TEEP specification {{!I-D.ietf-teep-protocol}} (and its predecessors
-{{!I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
+The TEEP specification {{!I-D.ietf-teep-protocol}} (like its predecessors
+{{?I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport.
 The purpose of this document is to provide such details.  That is,
 a TEEP-over-HTTP (TEEP/HTTP) implementation delivers messages up to a TEEP
@@ -292,8 +292,7 @@ If the HTTP response body is empty, the TEEP/HTTP Client's task is complete, and
 it can delete its session state, and its task is done.
 
 If instead the HTTP response body is not empty, the TEEP/HTTP Client passes
-(e.g., using "ProcessTeepMessage" API as mentioned in Section 6.2 of {{I-D.ietf-teep-opentrustprotocol}}
-if OTrP rather than TEEP is used for provisioning)
+(e.g., using "ProcessTeepMessage" API as mentioned in Section 6.2.1 of {{I-D.ietf-teep-architecture}})
 the response body up to the TEEP implementation
 associated with the session.  The TEEP implementation will then either pass no data back,
 or pass back a message buffer.
@@ -348,7 +347,7 @@ pass back a (possibly empty) message buffer.
 
 When an HTTP POST request is received with a non-empty body, the TEEP/HTTP Server passes the
 request body to the TAM (e.g., using the "ProcessTeepMessage" API mentioned in
-{{I-D.ietf-teep-architecture}} if OTrP rather than TEEP is used for provisioning). The TAM will
+{{I-D.ietf-teep-architecture}}). The TAM will
 then pass back a (possibly empty) message buffer.
 
 ## Getting an empty buffer back from the TEEP implementation

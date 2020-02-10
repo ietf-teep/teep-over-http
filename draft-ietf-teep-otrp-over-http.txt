@@ -117,15 +117,15 @@ Internet-Draft             TEEP HTTP Transport             February 2020
    allowing code (e.g., TCP/IP) that only sees encrypted messages, to be
    kept out of the TEE.
 
-   The TEEP specification [I-D.ietf-teep-protocol] (and its predecessors
-   [I-D.ietf-teep-opentrustprotocol] and [GP-OTrP]) describes the
-   behavior of TEEP Agents and TAMs, but does not specify the details of
-   the transport.  The purpose of this document is to provide such
-   details.  That is, a TEEP-over-HTTP (TEEP/HTTP) implementation
-   delivers messages up to a TEEP implementation, and accepts messages
-   from the TEEP implementation to be sent over a network.  The TEEP-
-   over-HTTP implementation can be implemented either outside a TEE
-   (i.e., in a TEEP "Broker") or inside a TEE.
+   The TEEP specification [I-D.ietf-teep-protocol] (like its
+   predecessors [I-D.ietf-teep-opentrustprotocol] and [GP-OTrP])
+   describes the behavior of TEEP Agents and TAMs, but does not specify
+   the details of the transport.  The purpose of this document is to
+   provide such details.  That is, a TEEP-over-HTTP (TEEP/HTTP)
+   implementation delivers messages up to a TEEP implementation, and
+   accepts messages from the TEEP implementation to be sent over a
+   network.  The TEEP-over-HTTP implementation can be implemented either
+   outside a TEE (i.e., in a TEEP "Broker") or inside a TEE.
 
    There are two topological scenarios in which TEEP could be deployed:
 
@@ -433,10 +433,10 @@ Internet-Draft             TEEP HTTP Transport             February 2020
 
    If instead the HTTP response body is not empty, the TEEP/HTTP Client
    passes (e.g., using "ProcessTeepMessage" API as mentioned in
-   Section 6.2 of [I-D.ietf-teep-opentrustprotocol] if OTrP rather than
-   TEEP is used for provisioning) the response body up to the TEEP
-   implementation associated with the session.  The TEEP implementation
-   will then either pass no data back, or pass back a message buffer.
+   Section 6.2.1 of [I-D.ietf-teep-architecture]) the response body up
+   to the TEEP implementation associated with the session.  The TEEP
+   implementation will then either pass no data back, or pass back a
+   message buffer.
 
    If no data is passed back, the TEEP/HTTP Client's task is complete,
    and it can delete its session state, and inform its caller (e.g., the
@@ -514,9 +514,8 @@ Internet-Draft             TEEP HTTP Transport             February 2020
 
    When an HTTP POST request is received with a non-empty body, the
    TEEP/HTTP Server passes the request body to the TAM (e.g., using the
-   "ProcessTeepMessage" API mentioned in [I-D.ietf-teep-architecture] if
-   OTrP rather than TEEP is used for provisioning).  The TAM will then
-   pass back a (possibly empty) message buffer.
+   "ProcessTeepMessage" API mentioned in [I-D.ietf-teep-architecture]).
+   The TAM will then pass back a (possibly empty) message buffer.
 
 6.2.  Getting an empty buffer back from the TEEP implementation
 
@@ -554,6 +553,7 @@ Internet-Draft             TEEP HTTP Transport             February 2020
         installed, but that it can be obtained from a given TAM.  The
         TEEP Agent passes the TAM URI (e.g., "https://example.com/tam")
         to the TEEP/HTTP Client.  (If the TEEP implementation already
+
 
 
 
@@ -674,11 +674,6 @@ Thaler                   Expires August 13, 2020               [Page 12]
 Internet-Draft             TEEP HTTP Transport             February 2020
 
 
-   [I-D.ietf-teep-opentrustprotocol]
-              Pei, M., Atyeo, A., Cook, N., Yoo, M., and H. Tschofenig,
-              "The Open Trust Protocol (OTrP)", draft-ietf-teep-
-              opentrustprotocol-03 (work in progress), May 2019.
-
    [I-D.ietf-teep-protocol]
               Tschofenig, H., Pei, M., Wheeler, D., and D. Thaler,
               "Trusted Execution Environment Provisioning (TEEP)
@@ -716,6 +711,11 @@ Internet-Draft             TEEP HTTP Transport             February 2020
               "Trusted Execution Environment Provisioning (TEEP)
               Architecture", draft-ietf-teep-architecture-06 (work in
               progress), February 2020.
+
+   [I-D.ietf-teep-opentrustprotocol]
+              Pei, M., Atyeo, A., Cook, N., Yoo, M., and H. Tschofenig,
+              "The Open Trust Protocol (OTrP)", draft-ietf-teep-
+              opentrustprotocol-03 (work in progress), May 2019.
 
 Author's Address
 
