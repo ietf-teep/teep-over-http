@@ -1,2 +1,13 @@
-# otrp-http
-OTrP over HTTP specification
+# OTrP over HTTP specification
+
+* [Working Group Draft](https://tools.ietf.org/html/draft-ietf-teep-otrp-over-http)
+
+## Building the Draft
+
+Formatted text and HTML versions of the draft can be built using `make`.
+
+```sh
+$ make
+``` 
+
+This requires that you have the necessary software installed.
