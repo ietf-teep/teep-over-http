@@ -13,4 +13,21 @@ Formatted text and HTML versions of the draft can be built using `make`.
 $ make
 ``` 
 
+Regenerating files after updating markdown file.
+```sh
+$ make clean
+$ make
+```
+
 This requires that you have the necessary software installed.
+
+Debian/Ubuntu
+```sh
+$ sudo apt install ruby-kramdown-rfc2629
+```
+
+Fedora
+```sh
+$ sudo dnf install rubygems
+$ sudo gem install kramdown-rfc2629
+```
