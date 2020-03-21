@@ -1,5 +1,12 @@
-draft-ietf-teep-otrp-over-http.txt: draft-ietf-teep-otrp-over-http.xml
-	xml2rfc draft-ietf-teep-otrp-over-http.xml
 
-draft-ietf-teep-otrp-over-http.xml: draft-ietf-teep-otrp-over-http.md
-	kramdown-rfc2629 draft-ietf-teep-otrp-over-http.md > draft-ietf-teep-otrp-over-http.xml
+IETF_MD := draft-ietf-teep-otrp-over-http.md
+
+XML_FILES := $(subst .md,.xml, $(IETF_MD))
+TXT_FILES := $(subst .md,.txt, $(IETF_MD))
+
+$(TXT_FILES): $(IETF_MD)
+	kdrfc $^
+
+.PHONY: all clean
+clean:
+	rm -f $(TXT_FILES) $(XML_FILES)
