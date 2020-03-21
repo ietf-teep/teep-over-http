@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-04
+docname: draft-ietf-teep-otrp-over-http-05
 category: info
 
 ipr: trust200902
@@ -369,7 +369,7 @@ TEEP/HTTP Server generates an appropriate HTTP error response.
 
 # Sample message flow
 
-The following shows a sample TEEP message flow that uses application/teep+json
+The following shows a sample TEEP message flow that uses application/teep+cbor
 as the Content-Type.
 
 1. An application installer determines (e.g., from an app manifest)
@@ -393,7 +393,7 @@ as the Content-Type.
 
                POST /tam HTTP/1.1
                Host: example.com
-               Accept: application/teep+json
+               Accept: application/teep+cbor
                Content-Length: 0
                User-Agent: Foo/1.0
 
@@ -407,7 +407,7 @@ as the Content-Type.
    the TEEP message in the body:
 
                HTTP/1.1 200 OK
-               Content-Type: application/teep+json
+               Content-Type: application/teep+cbor
                Content-Length: [length of TEEP message here]
                Server: Bar/2.2
                Cache-Control: no-store
@@ -428,8 +428,8 @@ as the Content-Type.
 
                POST /tam HTTP/1.1
                Host: example.com
-               Accept: application/teep+json
-               Content-Type: application/teep+json
+               Accept: application/teep+cbor
+               Content-Type: application/teep+cbor
                Content-Length: [length of TEEP message here]
                User-Agent: Foo/1.0
 
