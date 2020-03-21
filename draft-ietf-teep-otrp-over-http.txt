@@ -4,13 +4,13 @@
 
 TEEP WG                                                        D. Thaler
 Internet-Draft                                                 Microsoft
-Intended status: Informational                            March 11, 2020
-Expires: September 12, 2020
+Intended status: Informational                            March 20, 2020
+Expires: September 21, 2020
 
 
 HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-
                            TAM Communication
-                   draft-ietf-teep-otrp-over-http-04
+                   draft-ietf-teep-otrp-over-http-05
 
 Abstract
 
@@ -31,14 +31,14 @@ Status of This Memo
    Internet-Drafts are working documents of the Internet Engineering
    Task Force (IETF).  Note that other groups may also distribute
    working documents as Internet-Drafts.  The list of current Internet-
-   Drafts is at https://datatracker.ietf.org/drafts/current/.
+   Drafts is at http://datatracker.ietf.org/drafts/current/.
 
    Internet-Drafts are draft documents valid for a maximum of six months
    and may be updated, replaced, or obsoleted by other documents at any
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 12, 2020.
+   This Internet-Draft will expire on September 21, 2020.
 
 Copyright Notice
 
@@ -47,13 +47,13 @@ Copyright Notice
 
    This document is subject to BCP 78 and the IETF Trust's Legal
    Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
+   (http://trustee.ietf.org/license-info) in effect on the date of
    publication of this document.  Please review these documents
    carefully, as they describe your rights and restrictions with respect
 
 
 
-Thaler                 Expires September 12, 2020               [Page 1]
+Thaler                 Expires September 21, 2020               [Page 1]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thaler                 Expires September 12, 2020               [Page 2]
+Thaler                 Expires September 21, 2020               [Page 2]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -165,7 +165,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 3]
+Thaler                 Expires September 21, 2020               [Page 3]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -221,7 +221,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 4]
+Thaler                 Expires September 21, 2020               [Page 4]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -277,7 +277,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 5]
+Thaler                 Expires September 21, 2020               [Page 5]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -333,7 +333,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 6]
+Thaler                 Expires September 21, 2020               [Page 6]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -389,7 +389,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 7]
+Thaler                 Expires September 21, 2020               [Page 7]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -445,7 +445,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 8]
+Thaler                 Expires September 21, 2020               [Page 8]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -501,7 +501,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020               [Page 9]
+Thaler                 Expires September 21, 2020               [Page 9]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -538,7 +538,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 7.  Sample message flow
 
    The following shows a sample TEEP message flow that uses application/
-   teep+json as the Content-Type.
+   teep+cbor as the Content-Type.
 
    1.   An application installer determines (e.g., from an app manifest)
         that the application has a dependency on TA "X", and passes this
@@ -557,7 +557,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020              [Page 10]
+Thaler                 Expires September 21, 2020              [Page 10]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -571,7 +571,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
            POST /tam HTTP/1.1
            Host: example.com
-           Accept: application/teep+json
+           Accept: application/teep+cbor
            Content-Length: 0
            User-Agent: Foo/1.0
 
@@ -589,7 +589,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
            HTTP/1.1 200 OK
-           Content-Type: application/teep+json
+           Content-Type: application/teep+cbor
            Content-Length: [length of TEEP message here]
            Server: Bar/2.2
            Cache-Control: no-store
@@ -613,15 +613,15 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020              [Page 11]
+Thaler                 Expires September 21, 2020              [Page 11]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
 
           POST /tam HTTP/1.1
           Host: example.com
-          Accept: application/teep+json
-          Content-Type: application/teep+json
+          Accept: application/teep+cbor
+          Content-Type: application/teep+cbor
           Content-Length: [length of TEEP message here]
           User-Agent: Foo/1.0
 
@@ -669,7 +669,7 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020              [Page 12]
+Thaler                 Expires September 21, 2020              [Page 12]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -682,12 +682,12 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
-              DOI 10.17487/RFC2119, March 1997,
-              <https://www.rfc-editor.org/info/rfc2119>.
+              DOI 10.17487/RFC2119, March 1997, <https://www.rfc-
+              editor.org/info/rfc2119>.
 
    [RFC2818]  Rescorla, E., "HTTP Over TLS", RFC 2818,
-              DOI 10.17487/RFC2818, May 2000,
-              <https://www.rfc-editor.org/info/rfc2818>.
+              DOI 10.17487/RFC2818, May 2000, <https://www.rfc-
+              editor.org/info/rfc2818>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -698,8 +698,8 @@ Internet-Draft             TEEP HTTP Transport                March 2020
    [GP-OTrP]  Global Platform, "TEE Management Framework: Open Trust
               Protocol (OTrP) Profile Version 1.0", Global
               Platform GPD_SPE_123, May 2019,
-              <https://globalplatform.org/specs-library/
-              tee-management-framework-open-trust-protocol/>.
+              <https://globalplatform.org/specs-library/tee-management-
+              framework-open-trust-protocol/>.
 
    [I-D.ietf-httpbis-bcp56bis]
               Nottingham, M., "Building Protocols with HTTP", draft-
@@ -725,7 +725,7 @@ Author's Address
 
 
 
-Thaler                 Expires September 12, 2020              [Page 13]
+Thaler                 Expires September 21, 2020              [Page 13]
 
 Internet-Draft             TEEP HTTP Transport                March 2020
 
@@ -781,4 +781,4 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 12, 2020              [Page 14]
+Thaler                 Expires September 21, 2020              [Page 14]
