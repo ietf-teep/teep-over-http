@@ -63,7 +63,7 @@ TEEP "Agent" on the client side, and a "Trusted Application Manager (TAM)" on
 the server side) must themselves run inside a TEE. However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
-(e.g., TCP/IP) that only sees encrypted messages, to be kept out of the TEE.
+(e.g., TCP/IP or QUIC {{?I-D.ietf-quic-transport}}) that only sees encrypted messages, to be kept out of the TEE.
 
 The TEEP specification {{!I-D.ietf-teep-protocol}} (like its predecessors
 {{?I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
@@ -77,11 +77,11 @@ a TEEP "Broker") or inside a TEE.
 There are two topological scenarios in which TEEP could be deployed:
 
 1. TAMs are reachable on the Internet, and Agents are on networks that might be
-   behind a firewall, so that communication must be initiated by an Agent.
+   behind a firewall or stateful NAT, so that communication must be initiated by an Agent.
    Thus, the Agent has an HTTP Client and the TAM has an HTTP Server.
 
 2. Agents are reachable on the Internet, and TAMs are on networks that might be
-   behind a firewall, so that communication must be initiated by a TAM.
+   behind a firewall or stateful NAT, so that communication must be initiated by a TAM.
    Thus, the Agent has an HTTP Server and the TAM has an HTTP Client.
 
 The remainder of this document focuses primarily on the first scenario as depicted
@@ -385,9 +385,9 @@ as the Content-Type.
 3. The TEEP implementation finds that no such TA is already installed,
    but that it can be obtained from a given TAM.  The TEEP
    Agent passes the TAM URI (e.g., "https://example.com/tam")
-   to the TEEP/HTTP Client.  (If the TEEP implementation already had a cached TAM
-   certificate that it trusts, it could skip to step 9 instead and
-   generate a QueryResponse.)
+   to the TEEP/HTTP Client.  (If the TEEP implementation already had cached TAM
+   OCSP_DATA that it trusts based on a previous QueryRequest, it could skip to
+   step 9 instead and generate a QueryResponse.)
 
 4. The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
 
@@ -396,6 +396,9 @@ as the Content-Type.
                Accept: application/teep+cbor
                Content-Length: 0
                User-Agent: Foo/1.0
+
+   where the TEEP/HTTP Client fills in an implementation-specific value in the
+   User-Agent header.
 
 5. On the TAM side, the TEEP/HTTP Server receives the HTTP POST request, and calls
    the TEEP implementation's "ProcessConnect" API.
@@ -416,6 +419,9 @@ as the Content-Type.
                Referrer-Policy: no-referrer
 
                [TEEP message here]
+
+   where the TEEP/HTTP Server fills in an implementation-specific value in the
+   Server header.
 
 8. Back on the TEEP Agent side, the TEEP/HTTP Client gets the HTTP response, extracts the TEEP
    message and pass it up to the TEEP implementation.
