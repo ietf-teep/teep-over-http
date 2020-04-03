@@ -4,13 +4,13 @@
 
 TEEP WG                                                        D. Thaler
 Internet-Draft                                                 Microsoft
-Intended status: Informational                            March 20, 2020
-Expires: September 21, 2020
+Intended status: Informational                            April 02, 2020
+Expires: October 4, 2020
 
 
 HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-
                            TAM Communication
-                   draft-ietf-teep-otrp-over-http-05
+                   draft-ietf-teep-otrp-over-http-06
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on September 21, 2020.
+   This Internet-Draft will expire on October 4, 2020.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Thaler                 Expires September 21, 2020               [Page 1]
+Thaler                   Expires October 4, 2020                [Page 1]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
    to this document.  Code Components extracted from this document must
@@ -84,11 +84,11 @@ Table of Contents
      6.4.  Error handling  . . . . . . . . . . . . . . . . . . . . .  10
    7.  Sample message flow . . . . . . . . . . . . . . . . . . . . .  10
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  12
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  13
      10.2.  Informative References . . . . . . . . . . . . . . . . .  13
-   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  13
+   Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
 
@@ -109,13 +109,13 @@ Table of Contents
 
 
 
-Thaler                 Expires September 21, 2020               [Page 2]
+Thaler                   Expires October 4, 2020                [Page 2]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
-   allowing code (e.g., TCP/IP) that only sees encrypted messages, to be
-   kept out of the TEE.
+   allowing code (e.g., TCP/IP or QUIC [I-D.ietf-quic-transport]) that
+   only sees encrypted messages, to be kept out of the TEE.
 
    The TEEP specification [I-D.ietf-teep-protocol] (like its
    predecessors [I-D.ietf-teep-opentrustprotocol] and [GP-OTrP])
@@ -130,14 +130,14 @@ Internet-Draft             TEEP HTTP Transport                March 2020
    There are two topological scenarios in which TEEP could be deployed:
 
    1.  TAMs are reachable on the Internet, and Agents are on networks
-       that might be behind a firewall, so that communication must be
-       initiated by an Agent.  Thus, the Agent has an HTTP Client and
-       the TAM has an HTTP Server.
+       that might be behind a firewall or stateful NAT, so that
+       communication must be initiated by an Agent.  Thus, the Agent has
+       an HTTP Client and the TAM has an HTTP Server.
 
    2.  Agents are reachable on the Internet, and TAMs are on networks
-       that might be behind a firewall, so that communication must be
-       initiated by a TAM.  Thus, the Agent has an HTTP Server and the
-       TAM has an HTTP Client.
+       that might be behind a firewall or stateful NAT, so that
+       communication must be initiated by a TAM.  Thus, the Agent has an
+       HTTP Server and the TAM has an HTTP Client.
 
    The remainder of this document focuses primarily on the first
    scenario as depicted in Figure 1, but some sections (Section 4 and
@@ -165,9 +165,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 3]
+Thaler                   Expires October 4, 2020                [Page 3]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
 2.  Terminology
@@ -221,9 +221,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 4]
+Thaler                   Expires October 4, 2020                [Page 4]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
                            Model:    A      B      C     ...
@@ -277,9 +277,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 5]
+Thaler                   Expires October 4, 2020                [Page 5]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
    Some TEE architectures (e.g., SGX) may support API calls both into
@@ -333,9 +333,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 6]
+Thaler                   Expires October 4, 2020                [Page 6]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
 5.  TEEP/HTTP Client Behavior
@@ -389,9 +389,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 7]
+Thaler                   Expires October 4, 2020                [Page 7]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
    empty body.  The HTTP request is then associated with the TEEP/HTTP
@@ -445,9 +445,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 8]
+Thaler                   Expires October 4, 2020                [Page 8]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
    If instead the TEEP implementation passes back a message buffer, the
@@ -501,9 +501,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-Thaler                 Expires September 21, 2020               [Page 9]
+Thaler                   Expires October 4, 2020                [Page 9]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
 6.1.  Receiving an HTTP POST request
@@ -553,17 +553,17 @@ Internet-Draft             TEEP HTTP Transport                March 2020
         installed, but that it can be obtained from a given TAM.  The
         TEEP Agent passes the TAM URI (e.g., "https://example.com/tam")
         to the TEEP/HTTP Client.  (If the TEEP implementation already
+        had cached TAM OCSP_DATA that it trusts based on a previous
 
 
 
-
-Thaler                 Expires September 21, 2020              [Page 10]
+Thaler                   Expires October 4, 2020               [Page 10]
 
-Internet-Draft             TEEP HTTP Transport                March 2020
+Internet-Draft             TEEP HTTP Transport                April 2020
 
 
-        had a cached TAM certificate that it trusts, it could skip to
-        step 9 instead and generate a QueryResponse.)
+        QueryRequest, it could skip to step 9 instead and generate a
+        QueryResponse.)
 
    4.   The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
 
@@ -574,6 +574,9 @@ Internet-Draft             TEEP HTTP Transport                March 2020
            Accept: application/teep+cbor
            Content-Length: 0
            User-Agent: Foo/1.0
+
+        where the TEEP/HTTP Client fills in an implementation-specific
+        value in the User-Agent header.
 
    5.   On the TAM side, the TEEP/HTTP Server receives the HTTP POST
         request, and calls the TEEP implementation's "ProcessConnect"
@@ -599,9 +602,21 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
            [TEEP message here]
 
+        where the TEEP/HTTP Server fills in an implementation-specific
+        value in the Server header.
+
    8.   Back on the TEEP Agent side, the TEEP/HTTP Client gets the HTTP
         response, extracts the TEEP message and pass it up to the TEEP
         implementation.
+
+
+
+
+
+Thaler                   Expires October 4, 2020               [Page 11]
+
+Internet-Draft             TEEP HTTP Transport                April 2020
+
 
    9.   The TEEP implementation processes the TEEP message, and
         generates a TEEP response (e.g., QueryResponse) which it passes
@@ -611,11 +626,6 @@ Internet-Draft             TEEP HTTP Transport                March 2020
         HTTP POST request to the TAM URI, with the TEEP message in the
         body:
 
-
-
-Thaler                 Expires September 21, 2020              [Page 11]
-
-Internet-Draft             TEEP HTTP Transport                March 2020
 
 
           POST /tam HTTP/1.1
@@ -653,6 +663,17 @@ Internet-Draft             TEEP HTTP Transport                March 2020
    policy, where an administrator configures the TAM URI to be used, but
    it is expected that real deployments will always use HTTPS TAM URIs.
 
+
+
+
+
+
+
+Thaler                   Expires October 4, 2020               [Page 12]
+
+Internet-Draft             TEEP HTTP Transport                April 2020
+
+
 9.  IANA Considerations
 
    This document has no actions for IANA.
@@ -665,14 +686,6 @@ Internet-Draft             TEEP HTTP Transport                March 2020
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
               Semantics", draft-ietf-httpbis-semantics-07 (work in
               progress), March 2020.
-
-
-
-
-Thaler                 Expires September 21, 2020              [Page 12]
-
-Internet-Draft             TEEP HTTP Transport                March 2020
-
 
    [I-D.ietf-teep-protocol]
               Tschofenig, H., Pei, M., Wheeler, D., and D. Thaler,
@@ -706,6 +719,22 @@ Internet-Draft             TEEP HTTP Transport                March 2020
               ietf-httpbis-bcp56bis-09 (work in progress), November
               2019.
 
+
+
+
+
+
+
+Thaler                   Expires October 4, 2020               [Page 13]
+
+Internet-Draft             TEEP HTTP Transport                April 2020
+
+
+   [I-D.ietf-quic-transport]
+              Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
+              and Secure Transport", draft-ietf-quic-transport-27 (work
+              in progress), February 2020.
+
    [I-D.ietf-teep-architecture]
               Pei, M., Tschofenig, H., Thaler, D., and D. Wheeler,
               "Trusted Execution Environment Provisioning (TEEP)
@@ -718,17 +747,6 @@ Internet-Draft             TEEP HTTP Transport                March 2020
               opentrustprotocol-03 (work in progress), May 2019.
 
 Author's Address
-
-
-
-
-
-
-
-Thaler                 Expires September 21, 2020              [Page 13]
-
-Internet-Draft             TEEP HTTP Transport                March 2020
-
 
    Dave Thaler
    Microsoft
@@ -763,22 +781,4 @@ Internet-Draft             TEEP HTTP Transport                March 2020
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Thaler                 Expires September 21, 2020              [Page 14]
+Thaler                   Expires October 4, 2020               [Page 14]

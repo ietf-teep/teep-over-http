@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-05
+docname: draft-ietf-teep-otrp-over-http-06
 category: info
 
 ipr: trust200902
@@ -216,6 +216,7 @@ be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
 When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}.
+See {{!RFC7525}} for additional TLS recommendations.
 
 # TEEP/HTTP Client Behavior
 
