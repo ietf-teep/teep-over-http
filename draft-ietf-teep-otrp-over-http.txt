@@ -329,7 +329,7 @@ Internet-Draft             TEEP HTTP Transport                April 2020
    Agent via an out-of-band mechanism, as discussed in the next section.
 
    When HTTPS is used, TLS certificates MUST be checked according to
-   [RFC2818].
+   [RFC2818].  See [BCP195] for additional TLS recommendations.
 
 
 
@@ -682,6 +682,12 @@ Internet-Draft             TEEP HTTP Transport                April 2020
 
 10.1.  Normative References
 
+   [BCP195]   Sheffer, Y., Holz, R., and P. Saint-Andre,
+              "Recommendations for Secure Use of Transport Layer
+              Security (TLS) and Datagram Transport Layer Security
+              (DTLS)", BCP 195, RFC 7525, DOI 10.17487/RFC7525, May
+              2015, <https://www.rfc-editor.org/info/rfc7525>.
+
    [I-D.ietf-httpbis-semantics]
               Fielding, R., Nottingham, M., and J. Reschke, "HTTP
               Semantics", draft-ietf-httpbis-semantics-07 (work in
@@ -714,12 +720,6 @@ Internet-Draft             TEEP HTTP Transport                April 2020
               <https://globalplatform.org/specs-library/tee-management-
               framework-open-trust-protocol/>.
 
-   [I-D.ietf-httpbis-bcp56bis]
-              Nottingham, M., "Building Protocols with HTTP", draft-
-              ietf-httpbis-bcp56bis-09 (work in progress), November
-              2019.
-
-
 
 
 
@@ -729,6 +729,11 @@ Thaler                   Expires October 4, 2020               [Page 13]
 
 Internet-Draft             TEEP HTTP Transport                April 2020
 
+
+   [I-D.ietf-httpbis-bcp56bis]
+              Nottingham, M., "Building Protocols with HTTP", draft-
+              ietf-httpbis-bcp56bis-09 (work in progress), November
+              2019.
 
    [I-D.ietf-quic-transport]
               Iyengar, J. and M. Thomson, "QUIC: A UDP-Based Multiplexed
@@ -752,11 +757,6 @@ Author's Address
    Microsoft
 
    EMail: dthaler@microsoft.com
-
-
-
-
-
 
 
 

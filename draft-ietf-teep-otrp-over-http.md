@@ -216,7 +216,7 @@ be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
 When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}.
-See {{!RFC7525}} for additional TLS recommendations.
+See {{!BCP195=RFC7525}} for additional TLS recommendations.
 
 # TEEP/HTTP Client Behavior
 
