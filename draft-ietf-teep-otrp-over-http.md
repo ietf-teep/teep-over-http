@@ -215,8 +215,9 @@ A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
 be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
-When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}.
-See {{!BCP195=RFC7525}} for additional TLS recommendations.
+When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}
+and {{!RFC6125}}. See {{!BCP195=RFC7525}} for additional TLS recommendations 
+and {{!RFC7925}} for TLS recommendations related to IoT devices. 
 
 # TEEP/HTTP Client Behavior
 
