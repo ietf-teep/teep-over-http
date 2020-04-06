@@ -379,7 +379,7 @@ header with the appropriate media type in use, and with the message buffer as th
 
 If any error occurs where the TEEP/HTTP Server cannot get
 a message buffer (empty or not) back from the TEEP implementation, the
-TEEP/HTTP Server generates an appropriate HTTP error response.
+TEEP/HTTP Server generates an appropriate HTTP 5xx error response.
 
 # Sample message flow
 
