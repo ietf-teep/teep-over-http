@@ -215,9 +215,21 @@ A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
 be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
-When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}}
-and {{!RFC6125}}. See {{!BCP195=RFC7525}} for additional TLS recommendations 
-and {{!RFC7925}} for TLS recommendations related to IoT devices. 
+It is strongly RECOMMENDED that implementations use HTTPS.
+Although TEEP is protected end-to-end inside of HTTP, there is still value
+in using HTTPS for transport, since HTTPS can provide additional protections
+as discussed in Sections 4.4.2 and 6 of {{I-D.ietf-httpbis-bcp56bis}}.
+
+However, there may be constrained nodes where code space is an
+issue. {{!RFC7925}} provides TLS profiles that can be used in many
+constrained nodes, but in rare cases the most constrained nodes
+might need to use HTTP without a TLS stack, relying on the end-to-end
+security provided by the TEEP protocol.
+
+When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}},
+as well as {{!RFC6125}} if PKIX certificates are used.
+See {{!BCP195=RFC7525}} for additional TLS recommendations
+and {{!RFC7925}} for TLS recommandations related to IoT devices.
 
 # TEEP/HTTP Client Behavior
 
@@ -459,12 +471,9 @@ as the Content-Type.
 
 # Security Considerations {#security}
 
-Although TEEP is protected end-to-end inside of HTTP, there is still value
-in using HTTPS for transport, since HTTPS can provide additional protections
-as discussed in Section 6 of {{I-D.ietf-httpbis-bcp56bis}}.  As such, TEEP/HTTP
-implementations MUST support HTTPS.  The choice of HTTP vs HTTPS at runtime
-is up to policy, where an administrator configures the TAM URI to be used,
-but it is expected that real deployments will always use HTTPS TAM URIs.
+{{use-of-http}} discussed security recommendations for HTTPS transport
+of TEEP messages. See Section 6 of {{?I-D.ietf-httpbis-bcp56bis}}
+for additional discussion of HTTP(S) security considerations.
 
 # IANA Considerations
 
