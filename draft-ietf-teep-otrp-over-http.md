@@ -61,7 +61,7 @@ provision authorized code and configuration into TEEs.
 
 To be secure against malware, a TEEP implementation (referred to as a
 TEEP "Agent" on the client side, and a "Trusted Application Manager (TAM)" on
-the server side) must themselves run inside a TEE, although a TAM running
+the server side) SHOULD themselves run inside a TEE, although a TAM running
 outside a TEE is also supported. However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
