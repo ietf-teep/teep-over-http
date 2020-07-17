@@ -52,10 +52,11 @@ but interacts with a TEEP implementation that runs inside a TEE.
 
 #  Introduction
 
-Trusted Execution Environments (TEEs), including environments based on Intel SGX, ARM TrustZone,
-Secure Elements, and others, enforce that only authorized code can execute within the TEE,
-and any memory used by such code is protected against tampering or
-disclosure outside the TEE.  The Trusted Execution Environment Provisioning (TEEP) protocol is designed to
+A Trusted Execution Environment (TEE) is an environment that
+enforces that any code within that environment cannot be tampered with,
+and that any data used by such code cannot be read or tampered with
+by any code outside that environment.
+The Trusted Execution Environment Provisioning (TEEP) protocol is designed to
 provision authorized code and configuration into TEEs.
 
 To be secure against malware, a TEEP implementation (referred to as a
@@ -103,6 +104,9 @@ discussion of the second scenario may be handled by a separate document.
     +------------------+                          +------------------+
 ~~~~
 {: #communication-model title="Agent-to-TAM Communication"}
+
+This document specifies the middle layer (TEEP-over-HTTP), whereas
+the top layer (TEEP) is specified in {{I-D.ietf-teep-protocol}}.
 
 # Terminology
 
