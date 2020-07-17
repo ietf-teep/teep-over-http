@@ -325,7 +325,10 @@ handles the message buffer as specified in {{send-msg}}.
 
 ## Handling checks for policy changes
 
-An implementation MUST provide a way to periodically check for TEEP policy changes.
+An implementation MUST provide a way to periodically check for TAM policy
+changes, such as a Trusted Application needing to be deleted from a TEE
+because it is no longer permitted, or needing to be updated to a later
+version.
 This can be done in any implementation-specific manner, such as:
 
 A) The TEEP/HTTP Client might call up to the TEEP Agent at an interval previously
