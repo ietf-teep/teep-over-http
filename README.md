@@ -1,4 +1,4 @@
-# OTrP over HTTP specification
+# TEEP over HTTP specification
 
 * [Working Group Draft](https://tools.ietf.org/html/draft-ietf-teep-otrp-over-http)
 * [Editor's Copy (markdown)](./draft-ietf-teep-otrp-over-http.md)
