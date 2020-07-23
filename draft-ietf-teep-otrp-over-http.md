@@ -195,8 +195,8 @@ returning 0 bytes from an upcall, for example.
 # Use of HTTP as a Transport {#use-of-http}
 
 This document uses HTTP {{!I-D.ietf-httpbis-semantics}} as a transport.
-When not called out explicitly in this document, all implementation recommendations
-in {{?I-D.ietf-httpbis-bcp56bis}} apply to use of HTTP by TEEP.
+For the motivation behind the HTTP recommendations in this document,
+see the discussion of HTTP as a transport in {{?I-D.ietf-httpbis-bcp56bis}}.
 
 Redirects MAY be automatically followed, and no additional request headers
 beyond those specified by HTTP need be modified or
