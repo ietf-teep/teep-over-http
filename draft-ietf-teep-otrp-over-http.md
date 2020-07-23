@@ -200,20 +200,24 @@ see the discussion of HTTP as a transport in {{?I-D.ietf-httpbis-bcp56bis}}.
 
 Redirects MAY be automatically followed, and no additional request headers
 beyond those specified by HTTP need be modified or
-removed upon following such a redirect.
+removed upon following such a redirect.  Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
 with content SHOULD have the following headers as explained in Section 4.12 of
-{{I-D.ietf-httpbis-bcp56bis}} (replacing the content type with
-the relevant TEEP content type per the TEEP specification):
+{{I-D.ietf-httpbis-bcp56bis}} (using the relevant TEEP content type defined
+in {{I-D.ietf-teep-protocol}}):
 
 ~~~~
-    Content-Type: <content type>
+    Content-Type: application/teep+cbor
     Cache-Control: no-store
     X-Content-Type-Options: nosniff
     Content-Security-Policy: default-src 'none'
     Referrer-Policy: no-referrer
 ~~~~
+
+The "Cache-control" header SHOULD be set to no-store to disable caching
+of any TEEP protocol messages by HTTP intermediaries. Otherwise, there
+is the risk of stale TEEP messages.
 
 Only the POST method is specified for TAM resources exposed over HTTP.
 A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
@@ -278,7 +282,7 @@ application installer) of success.
 
 If the TEEP Agent passes back a TAM URI with no message buffer, the TEEP/HTTP Client
 attempts to create session state,
-then sends an HTTP(S) POST to the TAM URI with an Accept header
+then sends an HTTP(S) POST to the TAM URI with an Accept header with the TEEP media type requested,
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
 If the TEEP Agent instead passes back a TAM URI with a message buffer, the TEEP/HTTP Client
@@ -363,6 +367,10 @@ deletes its session state and informs its caller of a failure.
 
 ## Receiving an HTTP POST request
 
+If the TAM does not receive the appropriate Content-Type and Accept header
+fields, the TAM SHOULD fail the request, returning a 406 (not acceptable)
+response. Otherwise, processing continues as follows.
+
 When an HTTP POST request is received with an empty body,
 the TEEP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
 pass back a (possibly empty) message buffer.
@@ -375,7 +383,7 @@ then pass back a (possibly empty) message buffer.
 ## Getting an empty buffer back from the TAM
 
 If the TAM passes back an empty buffer, the TEEP/HTTP Server sends a successful
-(2xx) response with no body.
+(2xx) response with no body.  It SHOULD be status 204 (No Content).
 
 ## Getting a message buffer from the TAM
 
@@ -407,9 +415,7 @@ as the Content-Type.
 3. The TEEP Agent finds that no such TA is already installed,
    but that it can be obtained from a given TAM.  The TEEP
    Agent passes the TAM URI (e.g., "https://example.com/tam")
-   to the TEEP/HTTP Client.  (If the TEEP Agent already had cached TAM
-   OCSP_DATA that it trusts based on a previous QueryRequest, it could skip to
-   step 9 instead and generate a QueryResponse.)
+   to the TEEP/HTTP Client.
 
 4. The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
 
