@@ -122,44 +122,12 @@ This document also uses various terms defined in
 Trusted Application (TA), Trusted Application Manager (TAM), TEEP Agent, TEEP Broker,
 and Rich Execution Environment (REE).
 
-# TEEP Broker Models
+# TEEP Broker
 
 Section 6 of the TEEP architecture {{?I-D.ietf-teep-architecture}} defines a TEEP "Broker"
 as being a component on the device, but outside the TEE, that facilitates communication
-with a TAM.  As depicted in {{broker-models}}, there are multiple ways in which this
-can be implemented, with more or fewer layers being inside the TEE.  For example, in
-model A, the model with the smallest TEE footprint, only the TEEP implementation is inside
-the TEE, whereas the TEEP/HTTP implementation is in the TEEP Broker outside the TEE.
-
-~~~~
-                        Model:    A      B      C     ...
-
-                                 TEE    TEE    TEE
-     +----------------+           |      |      |
-     |      TEEP      |     Agent |      |      | Agent
-     | implementation |           |      |      |
-     +----------------+           v      |      |
-              |                          |      |
-     +----------------+           ^      |      |
-     |    TEEP/HTTP   |    Broker |      |      |
-     | implementation |           |      |      |
-     +----------------+           |      v      |
-              |                   |             |
-     +----------------+           |      ^      |
-     |      HTTP      |           |      |      |
-     | implementation |           |      |      |
-     +----------------+           |      |      v
-              |                   |      |
-     +----------------+           |      |      ^
-     |   TCP or QUIC  |           |      |      | Broker
-     | implementation |           |      |      |
-     +----------------+           |      |      |
-                                 REE    REE    REE
-~~~~
-{: #broker-models title="TEEP Broker Models"}
-
-In other models, additional layers are moved into the TEE, increasing the TEE footprint,
-with the Broker either containing or calling the topmost protocol layer outside of the TEE.
+with a TAM. That document further explains that the protocol layer at which the
+TEEP broker operates may vary by implementation, and it depicts several exemplary models.
 An implementation is free to choose any of these models, although model A is the one we
 will use in our examples.
 
