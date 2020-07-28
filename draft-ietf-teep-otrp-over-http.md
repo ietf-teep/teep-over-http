@@ -198,9 +198,8 @@ This document uses HTTP {{!I-D.ietf-httpbis-semantics}} as a transport.
 For the motivation behind the HTTP recommendations in this document,
 see the discussion of HTTP as a transport in {{?I-D.ietf-httpbis-bcp56bis}}.
 
-Redirects MAY be automatically followed, and no additional request headers
-beyond those specified by HTTP need be modified or
-removed upon following such a redirect.  Cookies are not used.
+Redirects MUST NOT be automatically followed.
+Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
 with content SHOULD have the following headers as explained in Section 4.12 of
