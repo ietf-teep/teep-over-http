@@ -209,15 +209,10 @@ in {{I-D.ietf-teep-protocol}}):
 
 ~~~~
     Content-Type: application/teep+cbor
-    Cache-Control: no-store
     X-Content-Type-Options: nosniff
     Content-Security-Policy: default-src 'none'
     Referrer-Policy: no-referrer
 ~~~~
-
-The "Cache-control" header SHOULD be set to no-store to disable caching
-of any TEEP protocol messages by HTTP intermediaries. Otherwise, there
-is the risk of stale TEEP messages.
 
 Only the POST method is specified for TAM resources exposed over HTTP.
 A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
@@ -367,9 +362,15 @@ deletes its session state and informs its caller of a failure.
 
 ## Receiving an HTTP POST request
 
-If the TAM does not receive the appropriate Content-Type and Accept header
-fields, the TAM SHOULD fail the request, returning a 406 (not acceptable)
-response. Otherwise, processing continues as follows.
+If the TAM does not receive the appropriate Content-Type header
+fields, the TAM SHOULD fail the request, returning a 415 Unsupported Media Type
+response.  Similarly, if an appropriate Accept header field is not
+present, the TAM SHOULD fail the request with an appropriate error response.
+(This is for consistency with common implementation practice to allow
+the HTTP server to choose a default error response, since in some
+implementations the choice is done at the HTTP layer rather than the
+layer at which TEEP-over-HTTP would be implemented.)
+Otherwise, processing continues as follows.
 
 When an HTTP POST request is received with an empty body,
 the TEEP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
@@ -441,7 +442,6 @@ as the Content-Type.
                Content-Type: application/teep+cbor
                Content-Length: [length of TEEP message here]
                Server: Bar/2.2
-               Cache-Control: no-store
                X-Content-Type-Options: nosniff
                Content-Security-Policy: default-src 'none'
                Referrer-Policy: no-referrer
