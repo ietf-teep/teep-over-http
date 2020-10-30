@@ -132,7 +132,7 @@ An implementation is free to choose any of these models, although model A is the
 will use in our examples.
 
 Passing information from an REE component to a TEE component is typically spoken of as
-being passed "in" to the TEE, and informaton passed in the opposite direction is spoken of
+being passed "in" to the TEE, and information passed in the opposite direction is spoken of
 as being passed "out".  In the protocol layering sense, information is typically spoken
 of as being passed "up" or "down" the stack.  Since the layer at which information is
 passed in/out may vary by implementation, we will generally use "up" and "down" in this
@@ -197,10 +197,10 @@ constrained nodes, but in rare cases the most constrained nodes
 might need to use HTTP without a TLS stack, relying on the end-to-end
 security provided by the TEEP protocol.
 
-When HTTPS is used, TLS certificates MUST be checked according to {{!RFC2818}},
-as well as {{!RFC6125}} if PKIX certificates are used.
+When HTTPS is used, clients MUST use the procedures detailed in
+Section 6 of {{!RFC6125}} to verify the authenticity of the server.
 See {{!BCP195=RFC7525}} for additional TLS recommendations
-and {{!RFC7925}} for TLS recommandations related to IoT devices.
+and {{!RFC7925}} for TLS recommendations related to IoT devices.
 
 # TEEP/HTTP Client Behavior
 
