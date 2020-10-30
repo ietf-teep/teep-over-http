@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-08
+docname: draft-ietf-teep-otrp-over-http-09
 category: info
 
 ipr: trust200902
