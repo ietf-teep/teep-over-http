@@ -204,9 +204,9 @@ and {{!RFC7925}} for TLS recommendations related to IoT devices.
 
 # TEEP/HTTP Client Behavior
 
-## Receiving a request to install a new Trusted Application
+## Receiving a request to install a new Trusted Application {#request-ta}
 
-In some environments, an application installer can determine (e.g., from an app manifest)
+In some environments, an application installer can determine (e.g., from an application manifest)
 that the application being installed or updated has a dependency on a given Trusted Application (TA)
 being available in a given type of TEE. In such a case, it will notify a TEEP Broker, where
 the notification will contain the following:
@@ -256,6 +256,37 @@ Session state consists of:
  - Any context (e.g., a handle) that identifies the API session with the TEEP Agent.
 
  - Any context that identifies an HTTP request, if one is outstanding.  Initially, none exists.
+
+## Receiving a notification that a Trusted Application is no longer needed
+
+In some environments, an application installer can determine (e.g., from an application manifest)
+that a given Trusted Application is no longer needed, such as
+if the application that previously depended on the TA is uninstalled
+or updated in a way that removes the dependency.
+In such a case, it will notify a TEEP Broker, where
+the notification will contain the following:
+
+ - A unique identifier of the TA
+
+ - Optionally, any requirements that may affect the choice of TEE,
+   if multiple are available to the TEEP Broker.
+
+When a TEEP Broker receives such a notification, it first identifies
+in an implementation-dependent way which TEE (if any) is appropriate
+based on the constraints expressed, as in {{request-ta}}.
+
+The TEEP/HTTP Client then informs the TEEP Agent in that TEE by invoking
+an appropriate "UnrequestTA" API that identifies the unneeded TA.
+The TEEP/HTTP Client need not know whether the TEE actually has
+the TA installed.
+
+The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
+or (c) pass back a message buffer and TAM URI to send it to.  The TAM URI
+passed back may or may not be the same as the TAM URI, if any, provided by
+the TEEP/HTTP Client, depending on the TEEP Agent's configuration.  If they differ,
+the TEEP/HTTP Client MUST use the TAM URI passed back.
+
+Processing then continues as in {{client-start}}.
 
 ## Getting a message buffer back from a TEEP Agent {#send-msg}
 
@@ -370,7 +401,7 @@ TEEP/HTTP Server generates an appropriate HTTP 5xx error response.
 The following shows a sample TEEP message flow that uses application/teep+cbor
 as the Content-Type.
 
-1. An application installer determines (e.g., from an app manifest)
+1. An application installer determines (e.g., from an application manifest)
    that the application has a dependency on TA "X", and passes
    this notification to the TEEP Broker.  The TEEP Broker
    picks a TEE (e.g., the only one available) based on
