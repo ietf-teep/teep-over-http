@@ -344,6 +344,12 @@ The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to con
 or (c) pass back a message buffer and TAM URI to send it to.  Processing then continues
 as specified in {{client-start}}.
 
+The TEEP Agent might need to talk to multiple TAMs, however, as shown in
+Figure 1 of {{?I-D.ietf-teep-architecture}}.  To accomplish this,
+the TEEP/HTTP Client keeps invoking the "RequestPolicyCheck" API until
+the TEEP Agent passes no data back, so that the TEEP Agent can return
+each TAM URI in response to a separate API call.
+
 ## Error handling
 
 If any local error occurs where the TEEP/HTTP Client cannot get
