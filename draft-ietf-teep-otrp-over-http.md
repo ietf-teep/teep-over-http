@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-10
+docname: draft-ietf-teep-otrp-over-http-11
 category: info
 
 ipr: trust200902
@@ -65,7 +65,7 @@ the server side) SHOULD themselves run inside a TEE, although a TAM running
 outside a TEE is also supported. However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
-(e.g., TCP/IP or QUIC {{?I-D.ietf-quic-transport}}) that only sees encrypted messages, to be kept out of the TEE.
+(e.g., TCP/IP or QUIC {{?RFC9000}}) that only sees encrypted messages, to be kept out of the TEE.
 
 The TEEP specification {{!I-D.ietf-teep-protocol}} (like its predecessors
 {{?I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
