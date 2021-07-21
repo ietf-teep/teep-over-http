@@ -4,13 +4,13 @@
 
 TEEP WG                                                        D. Thaler
 Internet-Draft                                                 Microsoft
-Intended status: Informational                             July 12, 2021
-Expires: January 13, 2022
+Intended status: Standards Track                            21 July 2021
+Expires: 22 January 2022
 
 
 HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-
                            TAM Communication
-                   draft-ietf-teep-otrp-over-http-11
+                   draft-ietf-teep-otrp-over-http-12
 
 Abstract
 
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on January 13, 2022.
+   This Internet-Draft will expire on 22 January 2022.
 
 Copyright Notice
 
@@ -46,22 +46,21 @@ Copyright Notice
    document authors.  All rights reserved.
 
    This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents
-   (https://trustee.ietf.org/license-info) in effect on the date of
-   publication of this document.  Please review these documents
-   carefully, as they describe your rights and restrictions with respect
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
+   Please review these documents carefully, as they describe your rights
+   and restrictions with respect to this document.  Code Components
 
 
 
-Thaler                  Expires January 13, 2022                [Page 1]
+Thaler                   Expires 22 January 2022                [Page 1]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
-   to this document.  Code Components extracted from this document must
-   include Simplified BSD License text as described in Section 4.e of
-   the Trust Legal Provisions and are provided without warranty as
-   described in the Simplified BSD License.
+   extracted from this document must include Simplified BSD License text
+   as described in Section 4.e of the Trust Legal Provisions and are
+   provided without warranty as described in the Simplified BSD License.
 
 Table of Contents
 
@@ -71,7 +70,8 @@ Table of Contents
      3.1.  Use of Abstract APIs  . . . . . . . . . . . . . . . . . .   4
    4.  Use of HTTP as a Transport  . . . . . . . . . . . . . . . . .   5
    5.  TEEP/HTTP Client Behavior . . . . . . . . . . . . . . . . . .   6
-     5.1.  Receiving a request to install a new Trusted Application    6
+     5.1.  Receiving a request to install a new Trusted
+           Application . . . . . . . . . . . . . . . . . . . . . . .   6
        5.1.1.  Session Creation  . . . . . . . . . . . . . . . . . .   7
      5.2.  Receiving a notification that a Trusted Application is no
            longer needed . . . . . . . . . . . . . . . . . . . . . .   7
@@ -79,17 +79,17 @@ Table of Contents
      5.4.  Receiving an HTTP response  . . . . . . . . . . . . . . .   8
      5.5.  Handling checks for policy changes  . . . . . . . . . . .   9
      5.6.  Error handling  . . . . . . . . . . . . . . . . . . . . .   9
-   6.  TEEP/HTTP Server Behavior . . . . . . . . . . . . . . . . . .  10
+   6.  TEEP/HTTP Server Behavior . . . . . . . . . . . . . . . . . .   9
      6.1.  Receiving an HTTP POST request  . . . . . . . . . . . . .  10
      6.2.  Getting an empty buffer back from the TAM . . . . . . . .  10
      6.3.  Getting a message buffer from the TAM . . . . . . . . . .  10
      6.4.  Error handling  . . . . . . . . . . . . . . . . . . . . .  10
    7.  Sample message flow . . . . . . . . . . . . . . . . . . . . .  10
    8.  Security Considerations . . . . . . . . . . . . . . . . . . .  12
-   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  13
-   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  13
-     10.1.  Normative References . . . . . . . . . . . . . . . . . .  13
-     10.2.  Informative References . . . . . . . . . . . . . . . . .  14
+   9.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  12
+   10. References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     10.1.  Normative References . . . . . . . . . . . . . . . . . .  12
+     10.2.  Informative References . . . . . . . . . . . . . . . . .  13
    Author's Address  . . . . . . . . . . . . . . . . . . . . . . . .  14
 
 1.  Introduction
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thaler                  Expires January 13, 2022                [Page 2]
+Thaler                   Expires 22 January 2022                [Page 2]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -165,7 +165,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 3]
+Thaler                   Expires 22 January 2022                [Page 3]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -221,7 +221,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 4]
+Thaler                   Expires 22 January 2022                [Page 4]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -277,7 +277,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 5]
+Thaler                   Expires 22 January 2022                [Page 5]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -297,13 +297,13 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    available in a given type of TEE.  In such a case, it will notify a
    TEEP Broker, where the notification will contain the following:
 
-   -  A unique identifier of the TA
+   *  A unique identifier of the TA
 
-   -  Optionally, any metadata to provide to the TEEP Agent.  This might
+   *  Optionally, any metadata to provide to the TEEP Agent.  This might
       include a TAM URI provided in the application manifest, for
       example.
 
-   -  Optionally, any requirements that may affect the choice of TEE, if
+   *  Optionally, any requirements that may affect the choice of TEE, if
       multiple are available to the TEEP Broker.
 
    When a TEEP Broker receives such a notification, it first identifies
@@ -333,7 +333,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 6]
+Thaler                   Expires 22 January 2022                [Page 6]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -355,10 +355,10 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
    Session state consists of:
 
-   -  Any context (e.g., a handle) that identifies the API session with
+   *  Any context (e.g., a handle) that identifies the API session with
       the TEEP Agent.
 
-   -  Any context that identifies an HTTP request, if one is
+   *  Any context that identifies an HTTP request, if one is
       outstanding.  Initially, none exists.
 
 5.2.  Receiving a notification that a Trusted Application is no longer
@@ -371,9 +371,9 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    dependency.  In such a case, it will notify a TEEP Broker, where the
    notification will contain the following:
 
-   -  A unique identifier of the TA
+   *  A unique identifier of the TA
 
-   -  Optionally, any requirements that may affect the choice of TEE, if
+   *  Optionally, any requirements that may affect the choice of TEE, if
       multiple are available to the TEEP Broker.
 
    When a TEEP Broker receives such a notification, it first identifies
@@ -389,7 +389,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 7]
+Thaler                   Expires 22 January 2022                [Page 7]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -445,7 +445,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                  Expires January 13, 2022                [Page 8]
+Thaler                   Expires 22 January 2022                [Page 8]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -496,17 +496,15 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    the TEEP Agent's "ProcessError" API, and then deletes its session
    state and informs its caller of a failure.
 
+6.  TEEP/HTTP Server Behavior
 
 
 
 
-
-Thaler                  Expires January 13, 2022                [Page 9]
+Thaler                   Expires 22 January 2022                [Page 9]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
-
-6.  TEEP/HTTP Server Behavior
 
 6.1.  Receiving an HTTP POST request
 
@@ -553,18 +551,17 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    The following shows a sample TEEP message flow that uses application/
    teep+cbor as the Content-Type.
 
+   1.   An application installer determines (e.g., from an application
+        manifest) that the application has a dependency on TA "X", and
+        passes this notification to the TEEP Broker.  The TEEP Broker
 
 
 
-
-Thaler                  Expires January 13, 2022               [Page 10]
+Thaler                   Expires 22 January 2022               [Page 10]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
-   1.   An application installer determines (e.g., from an application
-        manifest) that the application has a dependency on TA "X", and
-        passes this notification to the TEEP Broker.  The TEEP Broker
         picks a TEE (e.g., the only one available) based on this
         notification, and passes the information to the TEEP/HTTP Cient
         for that TEE.
@@ -579,13 +576,11 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
    4.   The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
 
-
-
-           POST /tam HTTP/1.1
-           Host: example.com
-           Accept: application/teep+cbor
-           Content-Length: 0
-           User-Agent: Foo/1.0
+              POST /tam HTTP/1.1
+              Host: example.com
+              Accept: application/teep+cbor
+              Content-Length: 0
+              User-Agent: Foo/1.0
 
         where the TEEP/HTTP Client fills in an implementation-specific
         value in the User-Agent header.
@@ -599,24 +594,15 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    7.   The TEEP/HTTP Server sends an HTTP successful response with the
         TEEP message in the body:
 
+              HTTP/1.1 200 OK
+              Content-Type: application/teep+cbor
+              Content-Length: [length of TEEP message here]
+              Server: Bar/2.2
+              X-Content-Type-Options: nosniff
+              Content-Security-Policy: default-src 'none'
+              Referrer-Policy: no-referrer
 
-
-           HTTP/1.1 200 OK
-           Content-Type: application/teep+cbor
-           Content-Length: [length of TEEP message here]
-           Server: Bar/2.2
-           X-Content-Type-Options: nosniff
-           Content-Security-Policy: default-src 'none'
-           Referrer-Policy: no-referrer
-
-           [TEEP message here]
-
-
-
-Thaler                  Expires January 13, 2022               [Page 11]
-
-Internet-Draft             TEEP HTTP Transport                 July 2021
-
+              [TEEP message here]
 
         where the TEEP/HTTP Server fills in an implementation-specific
         value in the Server header.
@@ -624,6 +610,13 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    8.   Back on the TEEP Agent side, the TEEP/HTTP Client gets the HTTP
         response, extracts the TEEP message and pass it up to the TEEP
         Agent.
+
+
+
+Thaler                   Expires 22 January 2022               [Page 11]
+
+Internet-Draft             TEEP HTTP Transport                 July 2021
+
 
    9.   The TEEP Agent processes the TEEP message, and generates a TEEP
         response (e.g., QueryResponse) which it passes back to the TEEP/
@@ -633,16 +626,14 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
         HTTP POST request to the TAM URI, with the TEEP message in the
         body:
 
+             POST /tam HTTP/1.1
+             Host: example.com
+             Accept: application/teep+cbor
+             Content-Type: application/teep+cbor
+             Content-Length: [length of TEEP message here]
+             User-Agent: Foo/1.0
 
-
-          POST /tam HTTP/1.1
-          Host: example.com
-          Accept: application/teep+cbor
-          Content-Type: application/teep+cbor
-          Content-Length: [length of TEEP message here]
-          User-Agent: Foo/1.0
-
-          [TEEP message here]
+             [TEEP message here]
 
    11.  The TEEP/HTTP Server receives the HTTP POST request, and passes
         the payload up to the TAM.
@@ -653,10 +644,8 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    13.  The TEEP/HTTP Server sends an HTTP successful response with no
         body:
 
-
-
-          HTTP/1.1 204 No Content
-          Server: Bar/2.2
+             HTTP/1.1 204 No Content
+             Server: Bar/2.2
 
    14.  The TEEP/HTTP Client deletes its session state.
 
@@ -666,14 +655,6 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    TEEP messages.  See Section 6 of [I-D.ietf-httpbis-bcp56bis] for
    additional discussion of HTTP(S) security considerations.
 
-
-
-
-Thaler                  Expires January 13, 2022               [Page 12]
-
-Internet-Draft             TEEP HTTP Transport                 July 2021
-
-
 9.  IANA Considerations
 
    This document has no actions for IANA.
@@ -681,6 +662,17 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 10.  References
 
 10.1.  Normative References
+
+
+
+
+
+
+
+Thaler                   Expires 22 January 2022               [Page 12]
+
+Internet-Draft             TEEP HTTP Transport                 July 2021
+
 
    [BCP195]   Sheffer, Y., Holz, R., and P. Saint-Andre,
               "Recommendations for Secure Use of Transport Layer
@@ -690,14 +682,18 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
    [I-D.ietf-httpbis-semantics]
               Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
-              Semantics", draft-ietf-httpbis-semantics-16 (work in
-              progress), May 2021.
+              Semantics", Work in Progress, Internet-Draft, draft-ietf-
+              httpbis-semantics-16, 27 May 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-httpbis-
+              semantics-16.txt>.
 
    [I-D.ietf-teep-protocol]
               Tschofenig, H., Pei, M., Wheeler, D., Thaler, D., and A.
               Tsukamoto, "Trusted Execution Environment Provisioning
-              (TEEP) Protocol", draft-ietf-teep-protocol-05 (work in
-              progress), February 2021.
+              (TEEP) Protocol", Work in Progress, Internet-Draft, draft-
+              ietf-teep-protocol-06, 12 July 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-teep-protocol-
+              06.txt>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
@@ -721,16 +717,18 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/info/rfc8174>.
 
+10.2.  Informative References
 
 
 
 
-Thaler                  Expires January 13, 2022               [Page 13]
+
+
+
+Thaler                   Expires 22 January 2022               [Page 13]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
-
-10.2.  Informative References
 
    [GP-OTrP]  Global Platform, "TEE Management Framework: Open Trust
               Protocol (OTrP) Profile Version 1.0", Global
@@ -739,19 +737,25 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
               framework-open-trust-protocol/>.
 
    [I-D.ietf-httpbis-bcp56bis]
-              Nottingham, M., "Building Protocols with HTTP", draft-
-              ietf-httpbis-bcp56bis-12 (work in progress), April 2021.
+              Nottingham, M., "Building Protocols with HTTP", Work in
+              Progress, Internet-Draft, draft-ietf-httpbis-bcp56bis-12,
+              27 April 2021, <https://www.ietf.org/archive/id/draft-
+              ietf-httpbis-bcp56bis-12.txt>.
 
    [I-D.ietf-teep-architecture]
               Pei, M., Tschofenig, H., Thaler, D., and D. Wheeler,
               "Trusted Execution Environment Provisioning (TEEP)
-              Architecture", draft-ietf-teep-architecture-14 (work in
-              progress), February 2021.
+              Architecture", Work in Progress, Internet-Draft, draft-
+              ietf-teep-architecture-15, 12 July 2021,
+              <https://www.ietf.org/archive/id/draft-ietf-teep-
+              architecture-15.txt>.
 
    [I-D.ietf-teep-opentrustprotocol]
               Pei, M., Atyeo, A., Cook, N., Yoo, M., and H. Tschofenig,
-              "The Open Trust Protocol (OTrP)", draft-ietf-teep-
-              opentrustprotocol-03 (work in progress), May 2019.
+              "The Open Trust Protocol (OTrP)", Work in Progress,
+              Internet-Draft, draft-ietf-teep-opentrustprotocol-03, 15
+              May 2019, <https://www.ietf.org/archive/id/draft-ietf-
+              teep-opentrustprotocol-03.txt>.
 
    [RFC9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
               Multiplexed and Secure Transport", RFC 9000,
@@ -763,7 +767,7 @@ Author's Address
    Dave Thaler
    Microsoft
 
-   EMail: dthaler@microsoft.com
+   Email: dthaler@microsoft.com
 
 
 
@@ -777,8 +781,4 @@ Author's Address
 
 
 
-
-
-
-
-Thaler                  Expires January 13, 2022               [Page 14]
+Thaler                   Expires 22 January 2022               [Page 14]
