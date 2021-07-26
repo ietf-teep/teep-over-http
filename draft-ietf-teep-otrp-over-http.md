@@ -1,5 +1,5 @@
 ---
-title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-TAM Communication"
+title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent Initiated Communication"
 abbrev: TEEP HTTP Transport
 docname: draft-ietf-teep-otrp-over-http-12
 category: std
@@ -104,7 +104,7 @@ discussion of the second scenario may be handled by a separate document.
     |    HTTP Client   | <----------------------> |    HTTP Server   |
     +------------------+                          +------------------+
 ~~~~
-{: #communication-model title="Agent-to-TAM Communication"}
+{: #communication-model title="Agent Initiated Communication"}
 
 This document specifies the middle layer (TEEP-over-HTTP), whereas
 the top layer (TEEP) is specified in {{I-D.ietf-teep-protocol}}.

@@ -4,12 +4,12 @@
 
 TEEP WG                                                        D. Thaler
 Internet-Draft                                                 Microsoft
-Intended status: Standards Track                            21 July 2021
-Expires: 22 January 2022
+Intended status: Standards Track                            26 July 2021
+Expires: 27 January 2022
 
 
-HTTP Transport for Trusted Execution Environment Provisioning: Agent-to-
-                           TAM Communication
+  HTTP Transport for Trusted Execution Environment Provisioning: Agent
+                        Initiated Communication
                    draft-ietf-teep-otrp-over-http-12
 
 Abstract
@@ -38,7 +38,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 22 January 2022.
+   This Internet-Draft will expire on 27 January 2022.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thaler                   Expires 22 January 2022                [Page 1]
+Thaler                   Expires 27 January 2022                [Page 1]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Thaler                   Expires 22 January 2022                [Page 2]
+Thaler                   Expires 27 January 2022                [Page 2]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -159,13 +159,13 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
       |    HTTP Client   | <----------------------> |    HTTP Server   |
       +------------------+                          +------------------+
 
-                   Figure 1: Agent-to-TAM Communication
+                 Figure 1: Agent Initiated Communication
 
 
 
 
 
-Thaler                   Expires 22 January 2022                [Page 3]
+Thaler                   Expires 27 January 2022                [Page 3]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -221,7 +221,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 4]
+Thaler                   Expires 27 January 2022                [Page 4]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -277,7 +277,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 5]
+Thaler                   Expires 27 January 2022                [Page 5]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -333,7 +333,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 6]
+Thaler                   Expires 27 January 2022                [Page 6]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -389,7 +389,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 7]
+Thaler                   Expires 27 January 2022                [Page 7]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -445,7 +445,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 8]
+Thaler                   Expires 27 January 2022                [Page 8]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -501,7 +501,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022                [Page 9]
+Thaler                   Expires 27 January 2022                [Page 9]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -557,7 +557,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022               [Page 10]
+Thaler                   Expires 27 January 2022               [Page 10]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -613,7 +613,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022               [Page 11]
+Thaler                   Expires 27 January 2022               [Page 11]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -669,7 +669,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022               [Page 12]
+Thaler                   Expires 27 January 2022               [Page 12]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -683,9 +683,9 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
    [I-D.ietf-httpbis-semantics]
               Fielding, R. T., Nottingham, M., and J. Reschke, "HTTP
               Semantics", Work in Progress, Internet-Draft, draft-ietf-
-              httpbis-semantics-16, 27 May 2021,
+              httpbis-semantics-17, 25 July 2021,
               <https://www.ietf.org/archive/id/draft-ietf-httpbis-
-              semantics-16.txt>.
+              semantics-17.txt>.
 
    [I-D.ietf-teep-protocol]
               Tschofenig, H., Pei, M., Wheeler, D., Thaler, D., and A.
@@ -725,7 +725,7 @@ Internet-Draft             TEEP HTTP Transport                 July 2021
 
 
 
-Thaler                   Expires 22 January 2022               [Page 13]
+Thaler                   Expires 27 January 2022               [Page 13]
 
 Internet-Draft             TEEP HTTP Transport                 July 2021
 
@@ -781,4 +781,4 @@ Author's Address
 
 
 
-Thaler                   Expires 22 January 2022               [Page 14]
+Thaler                   Expires 27 January 2022               [Page 14]
