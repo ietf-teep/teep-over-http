@@ -170,8 +170,9 @@ Redirects MUST NOT be automatically followed.
 Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
-with content SHOULD have the following headers as explained in Section 4.12 of
-{{I-D.ietf-httpbis-bcp56bis}} (using the relevant TEEP content type defined
+with content SHOULD have the following header fields as explained in Section 4.13 of
+{{I-D.ietf-httpbis-bcp56bis}} (using for illustrative purposes
+the relevant TEEP content type defined
 in {{I-D.ietf-teep-protocol}}):
 
 ~~~~
@@ -244,7 +245,7 @@ application installer) of success.
 
 If the TEEP Agent passes back a TAM URI with no message buffer, the TEEP/HTTP Client
 attempts to create session state,
-then sends an HTTP(S) POST to the TAM URI with an Accept header with the TEEP media type requested,
+then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type requested,
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
 If the TEEP Agent instead passes back a TAM URI with a message buffer, the TEEP/HTTP Client
@@ -295,7 +296,7 @@ TEEP/HTTP Client MUST do the following, using the TEEP/HTTP Client's session sta
 with its API call to the TEEP Agent.
 
 The TEEP/HTTP Client sends an HTTP POST request to the TAM URI with Accept
-and Content-Type headers with the TEEP media type in use, and a body
+and Content-Type header fields with the TEEP media type in use, and a body
 containing the TEEP message buffer provided by the TEEP Agent.
 The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
@@ -308,7 +309,7 @@ If the HTTP response body is empty, the TEEP/HTTP Client's task is complete, and
 it can delete its session state, and its task is done.
 
 If instead the HTTP response body is not empty, the TEEP/HTTP Client passes
-(e.g., using "ProcessTeepMessage" API as mentioned in Section 6.2.1 of {{I-D.ietf-teep-architecture}})
+(e.g., using the "ProcessTeepMessage" API as mentioned in Section 6.2.1 of {{I-D.ietf-teep-architecture}})
 the response body up to the TEEP Agent
 associated with the session.  The TEEP Agent will then either pass no data back,
 or pass back a message buffer.
@@ -326,7 +327,8 @@ An implementation MUST provide a way to periodically check for TAM policy
 changes, such as a Trusted Application needing to be deleted from a TEE
 because it is no longer permitted, or needing to be updated to a later
 version.
-This can be done in any implementation-specific manner, such as:
+This can be done in any implementation-specific manner, such as any of the
+following or a combination thereof:
 
 A) The TEEP/HTTP Client might call up to the TEEP Agent at an interval previously
    specified by the TEEP Agent.
@@ -354,7 +356,7 @@ each TAM URI in response to a separate API call.
 
 If any local error occurs where the TEEP/HTTP Client cannot get
 a message buffer (empty or not) back from the TEEP Agent, the
-TEEP/HTTP Client deletes its session state, and informs its caller (e.g.,
+TEEP/HTTP Client deletes its session state, and informs its caller (if any, e.g.,
 the application installer) of a failure.
 
 If any HTTP request results in an HTTP error response or
@@ -367,7 +369,7 @@ deletes its session state and informs its caller of a failure.
 ## Receiving an HTTP POST request
 
 If the TAM does not receive the appropriate Content-Type header
-fields, the TAM SHOULD fail the request, returning a 415 Unsupported Media Type
+field value, the TAM SHOULD fail the request, returning a 415 Unsupported Media Type
 response.  Similarly, if an appropriate Accept header field is not
 present, the TAM SHOULD fail the request with an appropriate error response.
 (This is for consistency with common implementation practice to allow
@@ -394,7 +396,7 @@ If the TAM passes back an empty buffer, the TEEP/HTTP Server sends a successful
 
 If the TAM passes back a non-empty buffer, the TEEP/HTTP Server
 generates a successful (2xx) response with a Content-Type
-header with the appropriate media type in use, and with the message buffer as the body.
+header field with the appropriate media type in use, and with the message buffer as the body.
 
 ## Error handling
 
@@ -419,7 +421,7 @@ as the Content-Type.
 
 3. The TEEP Agent finds that no such TA is already installed,
    but that it can be obtained from a given TAM.  The TEEP
-   Agent passes the TAM URI (e.g., "https://example.com/tam")
+   Agent passes back the TAM URI (e.g., "https://example.com/tam")
    to the TEEP/HTTP Client.
 
 4. The TEEP/HTTP Client sends an HTTP POST request to the TAM URI:
@@ -431,7 +433,7 @@ as the Content-Type.
                User-Agent: Foo/1.0
 
    where the TEEP/HTTP Client fills in an implementation-specific value in the
-   User-Agent header.
+   User-Agent header field.
 
 5. On the TAM side, the TEEP/HTTP Server receives the HTTP POST request, and calls
    the TAM's "ProcessConnect" API.
@@ -453,7 +455,7 @@ as the Content-Type.
                [TEEP message here]
 
    where the TEEP/HTTP Server fills in an implementation-specific value in the
-   Server header.
+   Server header field.
 
 8. Back on the TEEP Agent side, the TEEP/HTTP Client gets the HTTP response, extracts the TEEP
    message and pass it up to the TEEP Agent.
