@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent Initiated Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-12
+docname: draft-ietf-teep-otrp-over-http-13
 category: std
 
 ipr: trust200902
@@ -171,8 +171,7 @@ Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
 with content SHOULD have the following header fields as explained in Section 4.13 of
-{{I-D.ietf-httpbis-bcp56bis}} (using for illustrative purposes
-the relevant TEEP content type defined
+{{I-D.ietf-httpbis-bcp56bis}} (using the TEEP media type defined
 in {{I-D.ietf-teep-protocol}}):
 
 ~~~~
@@ -199,7 +198,7 @@ might need to use HTTP without a TLS stack, relying on the end-to-end
 security provided by the TEEP protocol.
 
 When HTTPS is used, clients MUST use the procedures detailed in
-Section 6 of {{!RFC6125}} to verify the authenticity of the server.
+Section 4.3.4 of {{!I-D.ietf-httpbis-semantics}} to verify the authenticity of the server.
 See {{!BCP195=RFC7525}} for additional TLS recommendations
 and {{!RFC7925}} for TLS recommendations related to IoT devices.
 
@@ -245,7 +244,8 @@ application installer) of success.
 
 If the TEEP Agent passes back a TAM URI with no message buffer, the TEEP/HTTP Client
 attempts to create session state,
-then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type requested,
+then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type
+specified in {{I-D.ietf-teep-protocol}},
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
 If the TEEP Agent instead passes back a TAM URI with a message buffer, the TEEP/HTTP Client
@@ -269,12 +269,17 @@ the notification will contain the following:
 
  - A unique identifier of the TA
 
+ - Optionally, any metadata to provide to the TEEP Agent.  This might
+   include a TAM URI provided in the original application manifest, for example.
+
  - Optionally, any requirements that may affect the choice of TEE,
    if multiple are available to the TEEP Broker.
 
 When a TEEP Broker receives such a notification, it first identifies
-in an implementation-dependent way which TEE (if any) is appropriate
-based on the constraints expressed, as in {{request-ta}}.
+in an implementation-dependent way which TEE (if any) is believed to
+contain the TA that is no longer needed, similar to the process in {{request-ta}}.
+Once the TEEP Broker picks a TEE, it passes the notification to the TEEP/HTTP
+Client for that TEE.
 
 The TEEP/HTTP Client then informs the TEEP Agent in that TEE by invoking
 an appropriate "UnrequestTA" API that identifies the unneeded TA.
@@ -289,15 +294,15 @@ the TEEP/HTTP Client MUST use the TAM URI passed back.
 
 Processing then continues as in {{client-start}}.
 
-## Getting a message buffer back from a TEEP Agent {#send-msg}
+## Getting a TAM URI and message buffer back from a TEEP Agent {#send-msg}
 
-When a TEEP Agent passes a message buffer (and TAM URI) to a TEEP/HTTP Client, the
+When a TEEP Agent passes a TAM URI and optionally a message buffer to a TEEP/HTTP Client, the
 TEEP/HTTP Client MUST do the following, using the TEEP/HTTP Client's session state associated
 with its API call to the TEEP Agent.
 
 The TEEP/HTTP Client sends an HTTP POST request to the TAM URI with Accept
-and Content-Type header fields with the TEEP media type in use, and a body
-containing the TEEP message buffer provided by the TEEP Agent.
+and Content-Type header fields with the TEEP media type, and a body
+containing the TEEP message buffer (if any) provided by the TEEP Agent.
 The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
 ## Receiving an HTTP response {#http-response}
@@ -378,11 +383,13 @@ implementations the choice is done at the HTTP layer rather than the
 layer at which TEEP-over-HTTP would be implemented.)
 Otherwise, processing continues as follows.
 
-When an HTTP POST request is received with an empty body,
+When an HTTP POST request is received with an empty body, this indicates
+a request for a new TEEP session, and
 the TEEP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
-pass back a (possibly empty) message buffer.
+pass back a message buffer.
 
-When an HTTP POST request is received with a non-empty body, the TEEP/HTTP Server passes the
+When an HTTP POST request is received with a non-empty body, this indicates a
+message on an existing TEEP session, and the TEEP/HTTP Server passes the
 request body to the TAM (e.g., using the "ProcessTeepMessage" API mentioned in
 {{I-D.ietf-teep-architecture}}). The TAM will
 then pass back a (possibly empty) message buffer.
@@ -396,7 +403,7 @@ If the TAM passes back an empty buffer, the TEEP/HTTP Server sends a successful
 
 If the TAM passes back a non-empty buffer, the TEEP/HTTP Server
 generates a successful (2xx) response with a Content-Type
-header field with the appropriate media type in use, and with the message buffer as the body.
+header field with the TEEP media type, and with the message buffer as the body.
 
 ## Error handling
 
@@ -494,6 +501,9 @@ as the Content-Type.
 {{use-of-http}} discussed security recommendations for HTTPS transport
 of TEEP messages. See Section 6 of {{?I-D.ietf-httpbis-bcp56bis}}
 for additional discussion of HTTP(S) security considerations.
+See section 9 of {{?I-D.ietf-teep-architecture}} for security considerations
+specific to the use of TEEP.
+
 
 # IANA Considerations
 
