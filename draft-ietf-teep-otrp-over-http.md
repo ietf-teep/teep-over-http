@@ -1,7 +1,7 @@
 ---
 title: "HTTP Transport for Trusted Execution Environment Provisioning: Agent Initiated Communication"
 abbrev: TEEP HTTP Transport
-docname: draft-ietf-teep-otrp-over-http-13
+docname: draft-ietf-teep-otrp-over-http-14
 category: std
 
 ipr: trust200902
@@ -27,16 +27,6 @@ author:
        name: Dave Thaler
        organization: Microsoft
        email: dthaler@microsoft.com
-
-informative:
-  GP-OTrP:
-    author:
-      org: Global Platform
-    title: "TEE Management Framework: Open Trust Protocol (OTrP) Profile Version 1.0"
-    date: 2019-05
-    target: https://globalplatform.org/specs-library/tee-management-framework-open-trust-protocol/
-    seriesinfo:
-        Global Platform: GPD_SPE_123
 
 --- abstract
 
@@ -68,8 +58,7 @@ the set of highly trusted code to be kept as small as possible, including allowi
 See section 6.2 of {{?I-D.ietf-teep-architecture}} for a depiction
 of various implementation models.
 
-The TEEP specification {{!I-D.ietf-teep-protocol}} (like its predecessors
-{{?I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
+The TEEP specification {{!I-D.ietf-teep-protocol}} describes the
 behavior of TEEP Agents and TAMs, but does not specify the details of the transport.
 The purpose of this document is to provide such details.  That is,
 a TEEP-over-HTTP (TEEP/HTTP) implementation delivers messages up to a TEEP
