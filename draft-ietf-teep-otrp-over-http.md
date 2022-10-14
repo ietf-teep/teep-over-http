@@ -44,8 +44,7 @@ The Trusted Execution Environment Provisioning (TEEP) Protocol is used to manage
 configuration data in a Trusted Execution
 Environment (TEE).  This document specifies the HTTP transport for TEEP communication where
 a Trusted Application Manager (TAM) service is used to manage code and data in TEEs on devices that can initiate
-communication to the TAM.  An implementation of this document can (if desired) run outside of any TEE,
-but interacts with a TEEP implementation that runs inside a TEE.
+communication to the TAM.  
 
 --- middle
 
@@ -66,6 +65,8 @@ outside a TEE is also supported. However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP or QUIC {{?RFC9000}}) that only sees encrypted messages, to be kept out of the TEE.
+See section 6.2 of {{?I-D.ietf-teep-architecture}} for a depiction
+of various implementation models.
 
 The TEEP specification {{!I-D.ietf-teep-protocol}} (like its predecessors
 {{?I-D.ietf-teep-opentrustprotocol}} and {{GP-OTrP}}) describes the
@@ -88,7 +89,7 @@ There are two topological scenarios in which TEEP could be deployed:
 
 The remainder of this document focuses primarily on the first scenario as depicted
 in {{communication-model}}, but some sections ({{use-of-http}}
-and {{security}}) may apply to the second scenario as well.  A fuller
+and {{security}}) may apply to the second scenario as well.  A more complete
 discussion of the second scenario may be handled by a separate document.
 
 ~~~~
@@ -107,7 +108,8 @@ discussion of the second scenario may be handled by a separate document.
 {: #communication-model title="Agent Initiated Communication"}
 
 This document specifies the middle layer (TEEP-over-HTTP), whereas
-the top layer (TEEP) is specified in {{I-D.ietf-teep-protocol}}.
+the top layer (TEEP) is specified in {{I-D.ietf-teep-protocol}}
+and the bottom layer (HTTP) is specified in {{!RFC9110}}.
 
 # Terminology
 
@@ -198,7 +200,9 @@ However, there may be constrained nodes where code space is an
 issue. {{!RFC7925}} provides TLS profiles that can be used in many
 constrained nodes, but in rare cases the most constrained nodes
 might need to use HTTP without a TLS stack, relying on the end-to-end
-security provided by the TEEP protocol.
+security provided by the TEEP protocol. See Sections 4.4.2 and 6 of {{RFC9205}}
+for more discussion of additional security considerations that apply
+in this case.
 
 When HTTPS is used, clients MUST use the procedures detailed in
 Section 4.3.4 of {{!RFC9110}} to verify the authenticity of the server.
