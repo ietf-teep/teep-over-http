@@ -162,16 +162,16 @@ returning 0 bytes from an upcall, for example.
 
 # Use of HTTP as a Transport {#use-of-http}
 
-This document uses HTTP {{!I-D.ietf-httpbis-semantics}} as a transport.
+This document uses HTTP {{!RFC9110}} as a transport.
 For the motivation behind the HTTP recommendations in this document,
-see the discussion of HTTP as a transport in {{?I-D.ietf-httpbis-bcp56bis}}.
+see the discussion of HTTP as a transport in {{?RFC9205}}.
 
 Redirects MUST NOT be automatically followed.
 Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
 with content SHOULD have the following header fields as explained in Section 4.13 of
-{{I-D.ietf-httpbis-bcp56bis}} (using the TEEP media type defined
+{{RFC9205}} (using the TEEP media type defined
 in {{I-D.ietf-teep-protocol}}):
 
 ~~~~
@@ -182,6 +182,9 @@ in {{I-D.ietf-teep-protocol}}):
 ~~~~
 
 Only the POST method is specified for TAM resources exposed over HTTP.
+Since POST responses without explicit freshness information are uncacheable
+(see Section 9.3.3 of {{RFC9110}}), no Cache-Control header is needed.
+
 A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
 be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
@@ -189,7 +192,7 @@ via an out-of-band mechanism, as discussed in the next section.
 It is strongly RECOMMENDED that implementations use HTTPS.
 Although TEEP is protected end-to-end inside of HTTP, there is still value
 in using HTTPS for transport, since HTTPS can provide additional protections
-as discussed in Sections 4.4.2 and 6 of {{I-D.ietf-httpbis-bcp56bis}}.
+as discussed in Sections 4.4.2 and 6 of {{RFC9205}}.
 
 However, there may be constrained nodes where code space is an
 issue. {{!RFC7925}} provides TLS profiles that can be used in many
@@ -198,7 +201,7 @@ might need to use HTTP without a TLS stack, relying on the end-to-end
 security provided by the TEEP protocol.
 
 When HTTPS is used, clients MUST use the procedures detailed in
-Section 4.3.4 of {{!I-D.ietf-httpbis-semantics}} to verify the authenticity of the server.
+Section 4.3.4 of {{!RFC9110}} to verify the authenticity of the server.
 See {{!BCP195=RFC7525}} for additional TLS recommendations
 and {{!RFC7925}} for TLS recommendations related to IoT devices.
 
@@ -254,7 +257,8 @@ specified in {{send-msg}}.
 
 Session state consists of:
 
- - Any context (e.g., a handle) that identifies the API session with the TEEP Agent.
+ - Any context (e.g., a handle) that the TEEP Agent wishes to be provided back to it
+   in any later conceptual API calls into it related to this session.
 
  - Any context that identifies an HTTP request, if one is outstanding.  Initially, none exists.
 
@@ -286,7 +290,8 @@ an appropriate "UnrequestTA" API that identifies the unneeded TA.
 The TEEP/HTTP Client need not know whether the TEE actually has
 the TA installed.
 
-The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
+Finally, the TEEP Agent responds to the TEEP/HTTP Client as in {{request-ta}}.
+Specifically, the TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
 or (c) pass back a message buffer and TAM URI to send it to.  The TAM URI
 passed back may or may not be the same as the TAM URI, if any, provided by
 the TEEP/HTTP Client, depending on the TEEP Agent's configuration.  If they differ,
@@ -465,7 +470,7 @@ as the Content-Type.
    Server header field.
 
 8. Back on the TEEP Agent side, the TEEP/HTTP Client gets the HTTP response, extracts the TEEP
-   message and pass it up to the TEEP Agent.
+   message and passes it up to the TEEP Agent.
 
 9. The TEEP Agent processes the TEEP message, and generates a TEEP
    response (e.g., QueryResponse) which it passes back to the TEEP/HTTP Client.
@@ -499,7 +504,7 @@ as the Content-Type.
 # Security Considerations {#security}
 
 {{use-of-http}} discussed security recommendations for HTTPS transport
-of TEEP messages. See Section 6 of {{?I-D.ietf-httpbis-bcp56bis}}
+of TEEP messages. See Section 6 of {{?RFC9205}}
 for additional discussion of HTTP(S) security considerations.
 See section 9 of {{?I-D.ietf-teep-architecture}} for security considerations
 specific to the use of TEEP.
