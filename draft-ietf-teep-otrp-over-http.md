@@ -66,7 +66,7 @@ implementation, and accepts messages from the TEEP implementation to be sent ove
 The TEEP-over-HTTP implementation can be implemented either outside a TEE (i.e., in
 a TEEP "Broker") or inside a TEE.
 
-There are two topological scenarios in which TEEP could be deployed:
+There are two topological scenarios (among others) in which TEEP could be deployed:
 
 1. TAMs are reachable on the Internet, and Agents are on networks that might be
    behind a firewall or stateful NAT, so that communication must be initiated by an Agent.
