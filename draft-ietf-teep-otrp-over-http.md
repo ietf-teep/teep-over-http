@@ -362,6 +362,8 @@ If any local error occurs where the TEEP/HTTP Client cannot get
 a message (empty or not) back from the TEEP Agent, the
 TEEP/HTTP Client deletes its session state, and informs its caller (if any, e.g.,
 the application installer) of a failure.
+Note that no timeout check is used at the TEEP/HTTP Client layer;
+any timeout would be done inside the TEEP Agent.
 
 If any HTTP request results in an HTTP error response or
 a lower layer error (e.g., network unreachable), the
@@ -409,6 +411,8 @@ header field with the TEEP media type, and with the message as the body.
 If any error occurs where the TEEP/HTTP Server cannot get
 a message (empty or not) back from the TAM, the
 TEEP/HTTP Server generates an appropriate HTTP 5xx error response.
+Note that no timeout check is used at the TEEP/HTTP Client layer;
+any timeout would be handled inside the TEEP Agent.
 
 # Sample message flow
 
