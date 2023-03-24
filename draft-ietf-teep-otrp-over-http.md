@@ -174,7 +174,7 @@ in {{I-D.ietf-teep-protocol}}):
 
 Only the POST method is specified for TAM resources exposed over HTTP.
 Since POST responses without explicit freshness information are uncacheable
-(see Section 9.3.3 of {{RFC9110}}), no Cache-Control header is needed.
+(see Section 9.3.3 of {{RFC9110}}), the Cache-Control header MUST NOT be used.
 
 A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
 be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
@@ -243,7 +243,6 @@ attempts to create session state,
 then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type
 specified in {{I-D.ietf-teep-protocol}},
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
-See Section 7 of {{!RFC3986}} for generic guidance on dereferencing URIs.
 
 If the TEEP Agent instead passes back a TAM URI with a message, the TEEP/HTTP Client
 attempts to create session state and handles the message as
@@ -506,7 +505,7 @@ of TEEP messages. See Section 6 of {{?RFC9205}}
 for additional discussion of HTTP(S) security considerations.
 See section 9 of {{?I-D.ietf-teep-architecture}} for security considerations
 specific to the use of TEEP.
-
+See Section 7 of {{!RFC3986}} for security considerations on dereferencing URIs.
 
 # IANA Considerations
 
