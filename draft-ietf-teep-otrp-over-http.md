@@ -243,6 +243,7 @@ attempts to create session state,
 then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type
 specified in {{I-D.ietf-teep-protocol}},
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
+See Section 7 of {{!RFC3986}} for generic guidance on dereferencing URIs.
 
 If the TEEP Agent instead passes back a TAM URI with a message, the TEEP/HTTP Client
 attempts to create session state and handles the message as
