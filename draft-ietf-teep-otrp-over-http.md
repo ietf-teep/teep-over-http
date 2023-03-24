@@ -228,7 +228,7 @@ associated metadata.  The TEEP/HTTP Client need not know whether the TEE already
 such a TA installed or whether it is up to date.
 
 The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
-or (c) pass back a message buffer and TAM URI to send it to.  The TAM URI
+or (c) pass back a message and TAM URI to send it to.  The TAM URI
 passed back may or may not be the same as the TAM URI, if any, provided by
 the TEEP/HTTP Client, depending on the TEEP Agent's configuration.  If they differ,
 the TEEP/HTTP Client MUST use the TAM URI passed back.
@@ -238,14 +238,14 @@ the TEEP/HTTP Client MUST use the TAM URI passed back.
 If no data is passed back, the TEEP/HTTP Client simply informs its caller (e.g., the
 application installer) of success.
 
-If the TEEP Agent passes back a TAM URI with no message buffer, the TEEP/HTTP Client
+If the TEEP Agent passes back a TAM URI with no message, the TEEP/HTTP Client
 attempts to create session state,
 then sends an HTTP(S) POST to the TAM URI with an Accept header field with the TEEP media type
 specified in {{I-D.ietf-teep-protocol}},
 and an empty body. The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
-If the TEEP Agent instead passes back a TAM URI with a message buffer, the TEEP/HTTP Client
-attempts to create session state and handles the message buffer as
+If the TEEP Agent instead passes back a TAM URI with a message, the TEEP/HTTP Client
+attempts to create session state and handles the message as
 specified in {{send-msg}}.
 
 Session state consists of:
@@ -285,22 +285,22 @@ the TA installed.
 
 Finally, the TEEP Agent responds to the TEEP/HTTP Client as in {{request-ta}}.
 Specifically, the TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
-or (c) pass back a message buffer and TAM URI to send it to.  The TAM URI
+or (c) pass back a message and TAM URI to send it to.  The TAM URI
 passed back may or may not be the same as the TAM URI, if any, provided by
 the TEEP/HTTP Client, depending on the TEEP Agent's configuration.  If they differ,
 the TEEP/HTTP Client MUST use the TAM URI passed back.
 
 Processing then continues as in {{client-start}}.
 
-## Getting a TAM URI and message buffer back from a TEEP Agent {#send-msg}
+## Getting a TAM URI and message back from a TEEP Agent {#send-msg}
 
-When a TEEP Agent passes a TAM URI and optionally a message buffer to a TEEP/HTTP Client, the
+When a TEEP Agent passes a TAM URI and optionally a message to a TEEP/HTTP Client, the
 TEEP/HTTP Client MUST do the following, using the TEEP/HTTP Client's session state associated
 with its API call to the TEEP Agent.
 
 The TEEP/HTTP Client sends an HTTP POST request to the TAM URI with Accept
 and Content-Type header fields with the TEEP media type, and a body
-containing the TEEP message buffer (if any) provided by the TEEP Agent.
+containing the TEEP message (if any) provided by the TEEP Agent.
 The HTTP request is then associated with the TEEP/HTTP Client's session state.
 
 ## Receiving an HTTP response {#http-response}
@@ -315,14 +315,14 @@ If instead the HTTP response body is not empty, the TEEP/HTTP Client passes
 (e.g., using the "ProcessTeepMessage" API as mentioned in Section 6.2.1 of {{I-D.ietf-teep-architecture}})
 the response body up to the TEEP Agent
 associated with the session.  The TEEP Agent will then either pass no data back,
-or pass back a message buffer.
+or pass back a message.
 
 If no data is passed back, the TEEP/HTTP Client's task is complete, and it
 can delete its session state, and inform its caller (e.g., the application
 installer) of success.
 
-If instead the TEEP Agent passes back a message buffer, the TEEP/HTTP Client
-handles the message buffer as specified in {{send-msg}}.
+If instead the TEEP Agent passes back a message, the TEEP/HTTP Client
+handles the message as specified in {{send-msg}}.
 
 ## Handling checks for policy changes
 
@@ -346,7 +346,7 @@ C) The TEEP/HTTP Client might be informed when any attestation attempt determine
 
 The TEEP/HTTP Client informs the TEEP Agent by invoking an appropriate "RequestPolicyCheck" API.
 The TEEP Agent will either (a) pass no data back, (b) pass back a TAM URI to connect to,
-or (c) pass back a message buffer and TAM URI to send it to.  Processing then continues
+or (c) pass back a message and TAM URI to send it to.  Processing then continues
 as specified in {{client-start}}.
 
 The TEEP Agent might need to talk to multiple TAMs, however, as shown in
@@ -358,7 +358,7 @@ each TAM URI in response to a separate API call.
 ## Error handling
 
 If any local error occurs where the TEEP/HTTP Client cannot get
-a message buffer (empty or not) back from the TEEP Agent, the
+a message (empty or not) back from the TEEP Agent, the
 TEEP/HTTP Client deletes its session state, and informs its caller (if any, e.g.,
 the application installer) of a failure.
 
@@ -384,29 +384,29 @@ Otherwise, processing continues as follows.
 When an HTTP POST request is received with an empty body, this indicates
 a request for a new TEEP session, and
 the TEEP/HTTP Server invokes the TAM's "ProcessConnect" API.  The TAM will then
-pass back a message buffer.
+pass back a message.
 
 When an HTTP POST request is received with a non-empty body, this indicates a
 message on an existing TEEP session, and the TEEP/HTTP Server passes the
 request body to the TAM (e.g., using the "ProcessTeepMessage" API mentioned in
 {{I-D.ietf-teep-architecture}}). The TAM will
-then pass back a (possibly empty) message buffer.
+then pass back a (possibly empty) message.
 
-## Getting an empty buffer back from the TAM
+## Getting an empty message back from the TAM
 
-If the TAM passes back an empty buffer, the TEEP/HTTP Server sends a successful
+If the TAM passes back an empty message, the TEEP/HTTP Server sends a successful
 (2xx) response with no body.  It SHOULD be status 204 (No Content).
 
-## Getting a message buffer from the TAM
+## Getting a message from the TAM
 
-If the TAM passes back a non-empty buffer, the TEEP/HTTP Server
+If the TAM passes back a non-empty message, the TEEP/HTTP Server
 generates a successful (2xx) response with a Content-Type
-header field with the TEEP media type, and with the message buffer as the body.
+header field with the TEEP media type, and with the message as the body.
 
 ## Error handling
 
 If any error occurs where the TEEP/HTTP Server cannot get
-a message buffer (empty or not) back from the TAM, the
+a message (empty or not) back from the TAM, the
 TEEP/HTTP Server generates an appropriate HTTP 5xx error response.
 
 # Sample message flow
@@ -419,7 +419,7 @@ as the Content-Type.
    this notification to the TEEP Broker.  The TEEP Broker
    picks a TEE (e.g., the only one available) based on
    this notification, and passes the information to the
-   TEEP/HTTP Cient for that TEE.
+   TEEP/HTTP Client for that TEE.
 
 2. The TEEP/HTTP Client calls the TEEP Agent's "RequestTA" API, passing
    TA Needed = X.
@@ -468,7 +468,7 @@ as the Content-Type.
 9. The TEEP Agent processes the TEEP message, and generates a TEEP
    response (e.g., QueryResponse) which it passes back to the TEEP/HTTP Client.
 
-10. The TEEP/HTTP Client gets the TEEP message buffer and sends
+10. The TEEP/HTTP Client gets the TEEP message and sends
     an HTTP POST request to the TAM URI, with the TEEP message in the body:
 
                POST /tam HTTP/1.1
