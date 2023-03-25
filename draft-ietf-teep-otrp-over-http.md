@@ -49,9 +49,9 @@ The Trusted Execution Environment Provisioning (TEEP) protocol is designed to
 provision authorized code and configuration into TEEs.
 
 To be secure against malware, a TEEP implementation (referred to as a
-TEEP "Agent" on the client side, and a "Trusted Application Manager (TAM)" on
-the server side) SHOULD themselves run inside a TEE, although a TAM running
-outside a TEE is also supported. However, the transport for TEEP,
+TEEP "Agent" on the client side SHOULD run inside a TEE, and a "Trusted Application Manager (TAM)" on
+the server side) might or might not run inside a TEE.
+However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
 the set of highly trusted code to be kept as small as possible, including allowing code
 (e.g., TCP/IP or QUIC {{?RFC9000}}) that only sees encrypted messages, to be kept out of the TEE.
@@ -161,7 +161,7 @@ Redirects MUST NOT be automatically followed.
 Cookies are not used.
 
 Content is not intended to be treated as active by browsers and so HTTP responses
-with content SHOULD have the following header fields as explained in Section 4.13 of
+with content MUST have the following header fields as explained in Section 4.13 of
 {{RFC9205}} (using the TEEP media type defined
 in {{I-D.ietf-teep-protocol}}):
 
