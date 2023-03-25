@@ -195,7 +195,7 @@ in this case.
 
 When HTTPS is used, clients MUST use the procedures detailed in
 Section 4.3.4 of {{!RFC9110}} to verify the authenticity of the server.
-See {{!BCP195=RFC7525}} for additional TLS recommendations
+See {{!BCP195=RFC9325}} for additional TLS recommendations
 and {{!RFC7925}} for TLS recommendations related to IoT devices.
 
 # TEEP/HTTP Client Behavior
