@@ -180,7 +180,7 @@ A URI of such a resource is referred to as a "TAM URI".  A TAM URI can
 be any HTTP(S) URI.  The URI to use is configured in a TEEP Agent
 via an out-of-band mechanism, as discussed in the next section.
 
-It is strongly RECOMMENDED that implementations use HTTPS.
+It is RECOMMENDED that implementations use HTTPS.
 Although TEEP is protected end-to-end inside of HTTP, there is still value
 in using HTTPS for transport, since HTTPS can provide additional protections
 as discussed in Section 6 of {{RFC9205}}.
