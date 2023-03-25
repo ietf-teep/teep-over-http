@@ -183,7 +183,7 @@ via an out-of-band mechanism, as discussed in the next section.
 It is strongly RECOMMENDED that implementations use HTTPS.
 Although TEEP is protected end-to-end inside of HTTP, there is still value
 in using HTTPS for transport, since HTTPS can provide additional protections
-as discussed in Sections 4.4.2 and 6 of {{RFC9205}}.
+as discussed in Section 6 of {{RFC9205}}.
 
 However, there may be constrained nodes where code space is an
 issue. {{!RFC7925}} provides TLS profiles that can be used in many
