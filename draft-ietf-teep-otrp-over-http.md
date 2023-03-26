@@ -49,7 +49,7 @@ The Trusted Execution Environment Provisioning (TEEP) protocol is designed to
 provision authorized code and configuration into TEEs.
 
 To be secure against malware, a TEEP implementation (referred to as a
-TEEP "Agent" on the client side SHOULD run inside a TEE, and a "Trusted Application Manager (TAM)" on
+TEEP "Agent" on the client side is expected to run inside a TEE, and a "Trusted Application Manager (TAM)" on
 the server side) might or might not run inside a TEE.
 However, the transport for TEEP,
 along with the underlying TCP/IP stack, does not necessarily run inside a TEE.  This split allows
