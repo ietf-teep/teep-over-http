@@ -4,8 +4,8 @@
 
 TEEP WG                                                        D. Thaler
 Internet-Draft                                                 Microsoft
-Intended status: Standards Track                           25 March 2023
-Expires: 26 September 2023
+Intended status: Standards Track                           27 March 2023
+Expires: 28 September 2023
 
 
   HTTP Transport for Trusted Execution Environment Provisioning: Agent
@@ -36,7 +36,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 26 September 2023.
+   This Internet-Draft will expire on 28 September 2023.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Thaler                  Expires 26 September 2023               [Page 1]
+Thaler                  Expires 28 September 2023               [Page 1]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -109,14 +109,14 @@ Table of Contents
 
 
 
-Thaler                  Expires 26 September 2023               [Page 2]
+Thaler                  Expires 28 September 2023               [Page 2]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
 
    To be secure against malware, a TEEP implementation (referred to as a
-   TEEP "Agent" on the client side SHOULD run inside a TEE, and a
-   "Trusted Application Manager (TAM)" on the server side) might or
+   TEEP "Agent" on the client side is expected to run inside a TEE, and
+   a "Trusted Application Manager (TAM)" on the server side) might or
    might not run inside a TEE.  However, the transport for TEEP, along
    with the underlying TCP/IP stack, does not necessarily run inside a
    TEE.  This split allows the set of highly trusted code to be kept as
@@ -165,7 +165,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 3]
+Thaler                  Expires 28 September 2023               [Page 3]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -221,7 +221,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 4]
+Thaler                  Expires 28 September 2023               [Page 4]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -277,7 +277,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 5]
+Thaler                  Expires 28 September 2023               [Page 5]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -333,7 +333,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 6]
+Thaler                  Expires 28 September 2023               [Page 6]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -389,7 +389,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 7]
+Thaler                  Expires 28 September 2023               [Page 7]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -445,7 +445,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 8]
+Thaler                  Expires 28 September 2023               [Page 8]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -501,7 +501,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023               [Page 9]
+Thaler                  Expires 28 September 2023               [Page 9]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -557,7 +557,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023              [Page 10]
+Thaler                  Expires 28 September 2023              [Page 10]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -613,7 +613,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023              [Page 11]
+Thaler                  Expires 28 September 2023              [Page 11]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -669,7 +669,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023              [Page 12]
+Thaler                  Expires 28 September 2023              [Page 12]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -725,7 +725,7 @@ Internet-Draft             TEEP HTTP Transport                March 2023
 
 
 
-Thaler                  Expires 26 September 2023              [Page 13]
+Thaler                  Expires 28 September 2023              [Page 13]
 
 Internet-Draft             TEEP HTTP Transport                March 2023
 
@@ -781,4 +781,4 @@ Author's Address
 
 
 
-Thaler                  Expires 26 September 2023              [Page 14]
+Thaler                  Expires 28 September 2023              [Page 14]
